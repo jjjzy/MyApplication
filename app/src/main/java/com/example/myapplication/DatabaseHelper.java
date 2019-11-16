@@ -17,11 +17,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fname text, lname text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text)");
+        db.execSQL("Create table user_requests(username text primary key, fname text, lname text, serviceRequested text, vendorName text, address text, time text)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
         db.execSQL("drop table if exists user");
         onCreate(db);
+    }
+
+    public boolean insertService(String username, String fname, String lname, String serviceRequested, String vendorName, String address, String time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("fname", fname);
+        contentValues.put("lname", lname);
+        contentValues.put("serviceRequested", serviceRequested);
+        contentValues.put("vendorName", vendorName);
+        contentValues.put("address",address);
+        contentValues.put("time",time);
+        long ins = db.insert("user_requests", null,contentValues);
+
+        if (ins==-1) return false;   //if the query does not work return false
+        else return true;
     }
 
     //insert username and password to the database
