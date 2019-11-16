@@ -16,13 +16,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //create a table for customers
     public void onCreate(SQLiteDatabase db){
-    db.execSQL("Create table user(fname text, lname text, username text primary key, password text, answer text, address text,phone text)");
-    db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text)");
+        db.execSQL("Create table user(fname text, lname text, username text primary key, password text, answer text, address text,phone text)");
+        db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
-    db.execSQL("drop table if exists user");
-    onCreate(db);
+        db.execSQL("drop table if exists user");
+        onCreate(db);
     }
 
     //insert username and password to the database

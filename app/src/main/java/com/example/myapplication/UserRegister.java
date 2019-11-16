@@ -71,7 +71,7 @@ public class UserRegister extends AppCompatActivity {
                        if(checkUsrname==true){
                            Boolean insert = db.insertUser(s,s0,s1,s2,s4,s5,s6);
                            if (insert==true){
-                               Toast.makeText(getApplicationContext(),"Registered Successfully", Toast.LENGTH_SHORT).show();
+                               Toast.makeText(getApplicationContext(),"Registered Successfully, going back to home page to log in", Toast.LENGTH_SHORT).show();
                                Intent in = new Intent(UserRegister.this ,MainActivity.class);
                                startActivity(in);
                            }

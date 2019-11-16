@@ -44,7 +44,6 @@ public class VendorLogin extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Successfully Login", Toast.LENGTH_SHORT).show();
                 }
                 else Toast.makeText(getApplicationContext(), "Wrong username/password",Toast.LENGTH_SHORT).show();
-
             }
         });
 
