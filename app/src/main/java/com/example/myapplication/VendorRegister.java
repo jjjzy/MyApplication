@@ -22,7 +22,7 @@ public class VendorRegister extends AppCompatActivity {
      EditText vendorPsw2;
      Button register;
      DatabaseHelper db;
-    EditText answer;
+     EditText answer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
