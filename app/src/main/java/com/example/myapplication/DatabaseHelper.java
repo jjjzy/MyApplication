@@ -7,11 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     //constructor
+    //test merge
     public DatabaseHelper(Context context){
         super(context,"Login.db",null,3);
-
     }
 
     //create a table for customers
