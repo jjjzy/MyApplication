@@ -10,18 +10,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //constructor
     //test merge
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,3);
+        super(context,"Login.db",null,4);
     }
 
     //create a table for customers
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fname text, lname text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text)");
-        db.execSQL("Create table user_requests(username text primary key, fname text, lname text, serviceRequested text, vendorName text, address text, time text)");
+        db.execSQL("Create table user_requests(user_username text, vendor_username text, services text, dates text)");
     }
 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("drop table if exists user");
+        db.execSQL("drop table if exists vendor");
         onCreate(db);
     }
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,10 +21,14 @@ public class MainActivity extends AppCompatActivity {
     Button vendorLogin;
     Button vendorRegister;
 
+    public static String s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("Creation", "in main");
 
         username = (EditText) findViewById(R.id.username3);
         password = (EditText) findViewById(R.id.passwordEditText);
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                String s = username.getText().toString();
+                s = username.getText().toString();
                 String p = password.getText().toString();
                 Boolean verify = db.checkInfo(s,p); //check if the username and password matche
                 if (verify==true) {
@@ -83,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        return this.db;
 //    }
 //
-//    public String getUsername(){
-//        return this.username.toString();
-//    }
+    public String getUsername(){
+        return this.username.toString();
+    }
 }
