@@ -7,43 +7,29 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
     //constructor
-    //test merge
     public DatabaseHelper(Context context){
         super(context,"Login.db",null,4);
+
     }
 
     //create a table for customers
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fname text, lname text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text)");
-        db.execSQL("Create table user_requests(user_username text, vendor_username text, services text, dates text)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double)");
     }
 
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+    public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
         db.execSQL("drop table if exists user");
         db.execSQL("drop table if exists vendor");
+        db.execSQL("drop table if exists orders");
         onCreate(db);
     }
 
-    public boolean insertService(String username, String fname, String lname, String serviceRequested, String vendorName, String address, String time){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("username", username);
-        contentValues.put("fname", fname);
-        contentValues.put("lname", lname);
-        contentValues.put("serviceRequested", serviceRequested);
-        contentValues.put("vendorName", vendorName);
-        contentValues.put("address",address);
-        contentValues.put("time",time);
-        long ins = db.insert("user_requests", null,contentValues);
-
-        if (ins==-1) return false;   //if the query does not work return false
-        else return true;
-    }
-
     //insert username and password to the database
-    public boolean insertUser(String fname, String lname, String username,String password,String answer,String address, String phone){
+    public boolean insertUser(String fname, String lname, String username,String password,String answer,String address, String phone) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("fname", fname);
@@ -51,9 +37,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("username", username);
         contentValues.put("password", password);
         contentValues.put("answer", answer);
-        contentValues.put("address",address);
-        contentValues.put("phone",phone);
-        long ins = db.insert("user", null,contentValues);
+        contentValues.put("address", address);
+        contentValues.put("phone", phone);
+        long ins = db.insert("user", null, contentValues);
+
+        if (ins == -1) return false;   //if the query does not work return false
+        else return true;
+    }
+
+
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_username", user_username);
+        contentValues.put("vendor_username", vendor_username);
+        contentValues.put("service", service);
+        contentValues.put("date", date);
+        contentValues.put("total", total);
+        long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false
         else return true;
@@ -141,27 +142,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update("vendor", cv,"username=?",args);
 
     }
-
-    public String get_firstname(String username){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select fname from user where username=?",new String[] {username});
-        String data = " ";
-        if (cursor.moveToFirst()){
-            while(!cursor.isAfterLast()){
-                data = cursor.getString(cursor.getColumnIndex("fname"));
-                // do what ever you want here
-                cursor.moveToNext();
-            }
-        }
-        cursor.close();
-
-        return data;
-    }
-
-//    public Boolean checkInfo(String username, String password){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("select * from user where username=? and password=?",new String[] {username,password});
-//        if(cursor.getCount() > 0 ) return true;
-//        else return false;
-//    }
 }
