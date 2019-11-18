@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     //this is the home page
-    EditText username;
+    public static EditText username;
     EditText password;
     Button btn;
     Button btn2;
@@ -77,9 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
     }
+
+//    public DatabaseHelper getDb(){
+//        return this.db;
+//    }
+//
+//    public String getUsername(){
+//        return this.username.toString();
+//    }
 }

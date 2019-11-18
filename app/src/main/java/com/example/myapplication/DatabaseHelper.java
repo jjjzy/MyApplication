@@ -140,4 +140,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update("vendor", cv,"username=?",args);
 
     }
+
+    public String get_firstname(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select fname from user where username=?",new String[] {username});
+        String data = " ";
+        if (cursor.moveToFirst()){
+            while(!cursor.isAfterLast()){
+                data = cursor.getString(cursor.getColumnIndex("fname"));
+                // do what ever you want here
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+
+        return data;
+    }
+
+//    public Boolean checkInfo(String username, String password){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("select * from user where username=? and password=?",new String[] {username,password});
+//        if(cursor.getCount() > 0 ) return true;
+//        else return false;
+//    }
 }
