@@ -1,3 +1,4 @@
+
 package com.example.myapplication;
 
 import android.content.Intent;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         userbtn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                Intent in = new Intent(MainActivity.this,CustomerLogin.class);
+                Intent in = new Intent(MainActivity.this, CustomerLogin.class);
                 startActivity(in);
             }
         });
@@ -37,3 +38,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
