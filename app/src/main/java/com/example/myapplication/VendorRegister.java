@@ -23,6 +23,9 @@ public class VendorRegister extends AppCompatActivity {
      Button register;
      DatabaseHelper db;
     EditText answer;
+    EditText email;
+    EditText price;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,9 @@ public class VendorRegister extends AppCompatActivity {
         register = (Button) findViewById(R.id.submitVendor);
         db = new DatabaseHelper(this);
         answer = (EditText) findViewById(R.id.answer3);
+        email = (EditText) findViewById(R.id.email);
+        price = (EditText) findViewById(R.id.price);
+
 
         register.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -54,8 +60,10 @@ public class VendorRegister extends AppCompatActivity {
                 String s5 = vendorPsw2.getText().toString();
                 String s6 = services.getSelectedItem().toString();
                 String s7 = answer.getText().toString();
+                String s8= email.getText().toString();
+                String s9= price.getText().toString();
 
-                if (s.equals("") || s1.equals(" ") || s2.equals("") || s3.equals("") || s4.equals("")|| s5.equals("") || s6.equals("") || s7.equals("")){
+                if (s.equals("") || s1.equals(" ") || s2.equals("") || s3.equals("") || s4.equals("")|| s5.equals("") || s6.equals("") || s7.equals("") || s8.equals("") || s9.equals("")){
                     Toast.makeText(getApplicationContext(),"Please fill out all blanks", Toast.LENGTH_SHORT).show();
 
                 }
@@ -63,7 +71,7 @@ public class VendorRegister extends AppCompatActivity {
                     if (s4.equals(s5)) {
                         Boolean checkUsrname = db.checkVendorUsername(s3);
                         if (checkUsrname == true) {
-                            Boolean insert = db.insertVendor(s3, s4, s7, s1, s2, s, s6);
+                            Boolean insert = db.insertVendor(s3, s4, s7, s1, s2, s, s6,s9,s8);
                             if (insert == true)
                                 Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
                             Intent in = new Intent(VendorRegister.this ,VendorLogin.class);
