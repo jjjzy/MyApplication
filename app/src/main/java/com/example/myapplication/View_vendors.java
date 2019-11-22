@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,13 +20,11 @@ public class View_vendors extends AppCompatActivity {
 
     DatabaseHelper db;
     CharSequence selected_text;
-    Request_Service_activity ra;
     ArrayList<String> vendor_list = new ArrayList<String>();
     LinearLayout ll;
 
-    PopupWindow popUp;
-    LinearLayout layout;
-    TextView tv;
+//    PopupWindow popUp;
+//    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +44,21 @@ public class View_vendors extends AppCompatActivity {
                 cursor.moveToNext();
             }
         }
-        cursor.close();
+//        cursor.close();
 
-        popUp = new PopupWindow(this);
-        layout = new LinearLayout(this);
+//        popUp = new PopupWindow(this);
+//        layout = new LinearLayout(this);
 
-        TextView tv= new TextView(this);
-        tv.setText("FUCK POPUP");
+//        TextView tv= new TextView(this);
+//        tv.setText("FUCK POPUP");
+//
+//        layout.addView(tv, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        layout.addView(tv, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
 
-
-        popUp.setContentView(layout);
-        popUp.setOutsideTouchable(true);
-        popUp.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        popUp.setContentView(layout);
+//        popUp.setOutsideTouchable(true);
+//        popUp.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         WindowManager.LayoutParams layout_param = getWindow().getAttributes();
 
@@ -71,19 +70,47 @@ public class View_vendors extends AppCompatActivity {
             btn.setId(i);
             btn.setText(vendor_list.get(i));
 
+            final PopupWindow popUp;
+            final LinearLayout layout;
+            popUp = new PopupWindow(this);
+
+            popUp.setOutsideTouchable(true);
+            popUp.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            layout = new LinearLayout(this);
+
+            TextView company_name= new TextView(this);
+            company_name.setText("Company name: " + "\n" +  vendor_list.get(i) + "\n" +
+                    "Address: " + "\n" + get_address(cursor, vendor_list.get(i)) + "\n" +
+                    "Phone number: " + "\n" + get_phone(cursor, vendor_list.get(i)) + "\n" +
+                    "Email: " + "\n" + get_email(cursor, vendor_list.get(i)) + "\n" +
+                    "Price: " + "\n" + get_price(cursor, vendor_list.get(i)));
+            company_name.setSingleLine(false);
+
+            layout.addView(company_name, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+//            TextView break_line= new TextView(this);
+//            break_line.setText(" \n");
+//            break_line.setSingleLine(false);
+//
+//            layout.addView(break_line, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT));
+//
+//
+//            TextView address= new TextView(this);
+//            address.setText("Address: ");
+//            address.setSingleLine(false);
+//
+//            layout.addView(address, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+            popUp.setContentView(layout);
+
+
             btn.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
-//                    TextView tv= new TextView(this);
-//                    tv.setText("FUCK POPUP");
-
-//                    layout.addView(tv, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                            LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-
-
-
-//                    startActivity(new Intent(View_vendors.this, Vendor_info_popup.class));
                     popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
 //                        popUp.show
                     popUp.update(50, 50, 1500, 600);
@@ -93,5 +120,113 @@ public class View_vendors extends AppCompatActivity {
 
             ll.addView(btn, params);
         }
+    }
+
+    public static String get_address(Cursor c, String company_name){
+        c.moveToFirst();
+//        Log.d("Creation", "inside if!");
+        String address = " ";
+        if (c.moveToFirst()){
+//            Log.d("Creation", "inside if!");
+            while(!c.isAfterLast()){
+                Log.d("Creation", "we are at: ");
+                Log.d("Creation", c.getString(c.getColumnIndex("company")));
+                Log.d("Creation", "parameter is: ");
+                Log.d("Creation", company_name);
+//                Log.d("Creation", "inside while!");
+                if(c.getString(c.getColumnIndex("company")).equals(company_name)){
+                    Log.d("Creation", "inside if!");
+                    address = c.getString(c.getColumnIndex("address"));
+//                    break;
+                }
+                else{
+                    Log.d("Creation", "not equal");
+                }
+//                String data = c.getString(c.getColumnIndex("company"));
+                c.moveToNext();
+            }
+        }
+        return address;
+    }
+
+    public static String get_phone(Cursor c, String company_name){
+        c.moveToFirst();
+//        Log.d("Creation", "inside if!");
+        String phone = " ";
+        if (c.moveToFirst()){
+//            Log.d("Creation", "inside if!");
+            while(!c.isAfterLast()){
+                Log.d("Creation", "we are at: ");
+                Log.d("Creation", c.getString(c.getColumnIndex("company")));
+                Log.d("Creation", "parameter is: ");
+                Log.d("Creation", company_name);
+//                Log.d("Creation", "inside while!");
+                if(c.getString(c.getColumnIndex("company")).equals(company_name)){
+                    Log.d("Creation", "inside if!");
+                    phone = c.getString(c.getColumnIndex("phone"));
+//                    break;
+                }
+                else{
+                    Log.d("Creation", "not equal");
+                }
+//                String data = c.getString(c.getColumnIndex("company"));
+                c.moveToNext();
+            }
+        }
+        return phone;
+    }
+
+    public static String get_email(Cursor c, String company_name){
+        c.moveToFirst();
+//        Log.d("Creation", "inside if!");
+        String email = " ";
+        if (c.moveToFirst()){
+//            Log.d("Creation", "inside if!");
+            while(!c.isAfterLast()){
+                Log.d("Creation", "we are at: ");
+                Log.d("Creation", c.getString(c.getColumnIndex("company")));
+                Log.d("Creation", "parameter is: ");
+                Log.d("Creation", company_name);
+//                Log.d("Creation", "inside while!");
+                if(c.getString(c.getColumnIndex("company")).equals(company_name)){
+                    Log.d("Creation", "inside if!");
+                    email = c.getString(c.getColumnIndex("email"));
+//                    break;
+                }
+                else{
+                    Log.d("Creation", "not equal");
+                }
+//                String data = c.getString(c.getColumnIndex("company"));
+                c.moveToNext();
+            }
+        }
+        return email;
+    }
+
+    public static String get_price(Cursor c, String company_name){
+        c.moveToFirst();
+//        Log.d("Creation", "inside if!");
+        String price = " ";
+        if (c.moveToFirst()){
+//            Log.d("Creation", "inside if!");
+            while(!c.isAfterLast()){
+                Log.d("Creation", "we are at: ");
+                Log.d("Creation", c.getString(c.getColumnIndex("company")));
+                Log.d("Creation", "parameter is: ");
+                Log.d("Creation", company_name);
+//                Log.d("Creation", "inside while!");
+                if(c.getString(c.getColumnIndex("company")).equals(company_name)){
+                    Log.d("Creation", "inside if!");
+                    price = c.getString(c.getColumnIndex("price"));
+//                    break;
+                }
+                else{
+                    Log.d("Creation", "not equal");
+                }
+//                String data = c.getString(c.getColumnIndex("company"));
+                c.moveToNext();
+            }
+        }
+        return price;
     }
 }
