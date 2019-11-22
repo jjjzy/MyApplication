@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -144,8 +145,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor return_vendor(String username){
+//        Log.d("Creation", username);
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from vendor where username=?",new String[] {username});
+        Cursor cursor = db.rawQuery("select * from vendor where service=?",new String[] {username});
 //        if(cursor.getCount() > 0 ) return true;
 //        else return false;
         return cursor;

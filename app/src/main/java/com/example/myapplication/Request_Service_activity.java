@@ -34,11 +34,11 @@ public class Request_Service_activity extends AppCompatActivity {
             public void onClick(View view){
 
                 if (rdio_grp.getCheckedRadioButtonId() == -1) {
-                    Log.d("Creation", "You must select one");
+//                    Log.d("Creation", "You must select one");
                     Toast.makeText(getApplicationContext(),"Please Select a service", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Log.d("Creation", "all good");
+//                    Log.d("Creation", "all good");
 
                     selected_btn = (RadioButton) findViewById(rdio_grp.getCheckedRadioButtonId());
 
