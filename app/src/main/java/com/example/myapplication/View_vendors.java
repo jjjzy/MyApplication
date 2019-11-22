@@ -50,18 +50,6 @@ public class View_vendors extends AppCompatActivity {
         popUp = new PopupWindow(this);
         layout = new LinearLayout(this);
 
-        for(int i = 0; i < 6; i++){
-            TextView tv= new TextView(this);
-            tv.setText("Vendor Company name: ");
-            TextView ty= new TextView(this);
-//            cursor.getColumnIndex(5);
-            cursor.moveToFirst();
-//            while(!cursor.isAfterLast()){
-//
-//            }
-            tv.setText("Vendor Company name: ");
-        }
-
         TextView tv= new TextView(this);
         tv.setText("FUCK POPUP");
 
@@ -85,6 +73,16 @@ public class View_vendors extends AppCompatActivity {
 
             btn.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
+//                    TextView tv= new TextView(this);
+//                    tv.setText("FUCK POPUP");
+
+//                    layout.addView(tv, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                            LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+
+
+
 //                    startActivity(new Intent(View_vendors.this, Vendor_info_popup.class));
                     popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
 //                        popUp.show
