@@ -133,7 +133,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("password", newPassword);
         String [] args = new String[]{username};
         db.update("user", cv,"username=?",args);
-
     }
 
     public void changeVendorPassword(String newPassword, String username){
@@ -142,6 +141,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("password", newPassword);
         String [] args = new String[]{username};
         db.update("vendor", cv,"username=?",args);
+    }
 
+    public Cursor return_vendor(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from vendor where username=?",new String[] {username});
+//        if(cursor.getCount() > 0 ) return true;
+//        else return false;
+        return cursor;
     }
 }
