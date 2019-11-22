@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,15 +76,18 @@ public class View_vendors extends AppCompatActivity {
             popUp = new PopupWindow(this);
 
             popUp.setOutsideTouchable(true);
-            popUp.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            popUp.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             layout = new LinearLayout(this);
 
             TextView company_name= new TextView(this);
-            company_name.setText("Company name: " + "\n" +  vendor_list.get(i) + "\n" +
-                    "Address: " + "\n" + get_address(cursor, vendor_list.get(i)) + "\n" +
-                    "Phone number: " + "\n" + get_phone(cursor, vendor_list.get(i)) + "\n" +
-                    "Email: " + "\n" + get_email(cursor, vendor_list.get(i)) + "\n" +
-                    "Price: " + "\n" + get_price(cursor, vendor_list.get(i)));
+            company_name.setText("Company name: " +  vendor_list.get(i) + "\n" + "\n" +
+                    "Address: "  + get_address(cursor, vendor_list.get(i)) + "\n" + "\n" +
+                    "Phone number: " + get_phone(cursor, vendor_list.get(i)) + "\n" + "\n" +
+                    "Email: " + get_email(cursor, vendor_list.get(i)) + "\n" + "\n" +
+                    "Price: " + get_price(cursor, vendor_list.get(i)));
+            company_name.setTextSize(30);
+            company_name.setTextColor(Color.rgb(0,0,0));
+//            company_name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             company_name.setSingleLine(false);
 
             layout.addView(company_name, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -113,7 +117,7 @@ public class View_vendors extends AppCompatActivity {
                 public void onClick(View view){
                     popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
 //                        popUp.show
-                    popUp.update(50, 50, 1500, 600);
+                    popUp.update(50, 50, 1500, 1400);
 
                 }
             });

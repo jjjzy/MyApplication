@@ -8,9 +8,13 @@
 
     <LinearLayout
         android:id="@+id/ll"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="415dp"
+        android:layout_height="849dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp"></LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
