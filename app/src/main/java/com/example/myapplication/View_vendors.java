@@ -62,9 +62,7 @@ public class View_vendors extends AppCompatActivity {
             Button btn = new Button(this);
             btn.setId(i);
             btn.setText(vendor_list.get(i));
-//            ll.addView(btn);
             ll.addView(btn, params);
-//            Log.d("Creation", vendor_list.get(i));
         }
     }
 }
