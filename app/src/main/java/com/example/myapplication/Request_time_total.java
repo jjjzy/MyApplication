@@ -1,17 +1,37 @@
 package com.example.myapplication;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Request_time_total extends AppCompatActivity {
+import java.util.Calendar;
+
+public class Request_time_total extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     String service_selected;
     String vendor_username;
     String user_username;
 
     DatabaseHelper db;
+
+    Button pick_d_t;
+    TextView view_d_t;
+    TextView view_vendor_service;
+
+    int day, month, year, hour, minute;
+    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+
+    Button submit_request_button;
 
 
     @Override
@@ -20,7 +40,6 @@ public class Request_time_total extends AppCompatActivity {
         setContentView(R.layout.activity_request_time_total);
 
         db = new DatabaseHelper(this);
-
 
         service_selected = Request_Service_activity.selected_text.toString();
         Log.d("Creation", "service selected: ");
@@ -39,5 +58,66 @@ public class Request_time_total extends AppCompatActivity {
         vendor_username = cursor.getString(cursor.getColumnIndex("username"));
         Log.d("Creation", "vendor username selected: ");
         Log.d("Creation", vendor_username);
+
+        pick_d_t = (Button) findViewById(R.id.d_t_picker);
+        view_d_t = (TextView) findViewById(R.id.d_t_viewer);
+
+        pick_d_t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Request_time_total.this, Request_time_total.this, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        view_vendor_service = (TextView) findViewById(R.id.service_vendor_viewer);
+        view_vendor_service.setText("Here is your request details:" + "\n" +
+                "Your username: " + user_username + "\n" +
+                "Selected Service: " + service_selected + "\n" +
+                "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))
+//                "year: " + yearFinal + "\n" +
+//                "month: " + monthFinal + "\n" +
+//                "day: " + dayFinal + "\n" +
+//                "hour: " + hourFinal + "\n" +
+//                "minute: " + minuteFinal + "\n"
+                );
+
+        submit_request_button = (Button) findViewById(R.id.submit_request);
+
+        
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        yearFinal = year;
+        monthFinal = month + 1;
+        dayFinal = dayOfMonth;
+
+        Calendar calendar = Calendar.getInstance();
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(Request_time_total.this, Request_time_total.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        hourFinal = hourOfDay;
+        minuteFinal = minute;
+
+        view_d_t.setText("year: " + yearFinal + "\n" +
+                "month: " + monthFinal + "\n" +
+                "day: " + dayFinal + "\n" +
+                "hour: " + hourFinal + "\n" +
+                "minute: " + minuteFinal + "\n");
     }
 }
+
+

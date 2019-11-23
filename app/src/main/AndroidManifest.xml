@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Request_time_total"></activity>
+        <activity android:name=".Request_time_total" />
         <activity android:name=".View_vendors" />
         <activity android:name=".CustomerLogin" />
         <activity android:name=".Settings" />
