@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,7 +50,7 @@ public class Request_time_total extends AppCompatActivity implements
         Log.d("Creation", "user username: ");
         Log.d("Creation", user_username);
 
-        Cursor cursor = db.return_vendor(service_selected);
+        final Cursor cursor = db.return_vendor(service_selected);
         cursor.moveToFirst();
         for(int i = 0; i < View_vendors.index; i++){
             cursor.moveToNext();
@@ -89,7 +90,18 @@ public class Request_time_total extends AppCompatActivity implements
 
         submit_request_button = (Button) findViewById(R.id.submit_request);
 
-        
+        submit_request_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
+                Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")));
+                if(insert == true){
+                    Toast.makeText(getApplicationContext(),"Request succesfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
 
     }
 
