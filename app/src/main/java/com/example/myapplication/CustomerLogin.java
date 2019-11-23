@@ -1,13 +1,13 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CustomerLogin extends AppCompatActivity {
 
@@ -17,6 +17,8 @@ public class CustomerLogin extends AppCompatActivity {
     Button btn2;
     DatabaseHelper db;
     Button reset;
+
+    public static String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class CustomerLogin extends AppCompatActivity {
 
         btn.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                String s = username.getText().toString();
+                s = username.getText().toString();
                 String p = password.getText().toString();
                 Boolean verify = db.checkInfo(s,p); //check if the username and password matche
                 if (verify==true) {

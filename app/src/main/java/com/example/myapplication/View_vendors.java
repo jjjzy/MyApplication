@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,7 +23,10 @@ public class View_vendors extends AppCompatActivity {
     DatabaseHelper db;
     CharSequence selected_text;
     ArrayList<String> vendor_list = new ArrayList<String>();
+    ArrayList<String> vendor_username_list = new ArrayList<String>();
     LinearLayout ll;
+
+    public static String vendor_username_selected;
 
 //    PopupWindow popUp;
 //    LinearLayout layout;
@@ -32,16 +36,22 @@ public class View_vendors extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_vendors);
 
+        Log.d("Creation", "www");
+
         selected_text = Request_Service_activity.selected_text;
         db = new DatabaseHelper(this);
         ll = (LinearLayout)findViewById(R.id.ll);
-        Cursor cursor = db.return_vendor(selected_text.toString());
+        final Cursor cursor = db.return_vendor(selected_text.toString());
         cursor.moveToFirst();
 
         if (cursor.moveToFirst()){
             while(!cursor.isAfterLast()){
                 String data = cursor.getString(cursor.getColumnIndex("company"));
                 vendor_list.add(data);
+
+                String vendor_username = cursor.getString(cursor.getColumnIndex("username"));
+                vendor_username_list.add(vendor_username);
+
                 cursor.moveToNext();
             }
         }
@@ -78,6 +88,7 @@ public class View_vendors extends AppCompatActivity {
             popUp.setOutsideTouchable(true);
             popUp.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
 
             TextView company_name= new TextView(this);
             company_name.setText("Company name: " +  vendor_list.get(i) + "\n" + "\n" +
@@ -90,13 +101,23 @@ public class View_vendors extends AppCompatActivity {
 //            company_name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             company_name.setSingleLine(false);
 
-            Button select_svs = new Button(this);
-            select_svs.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.WRAP_CONTENT));
+            Button select_vd = new Button(this);
+//            select_svs.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.WRAP_CONTENT));
+//            select_svs.
+            select_vd.setText("Select this vendor");
+//            vendor_username_selected = vendor_username_list.get(i);
+//            final int index = i;
+            select_vd.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view){
+//                    vendor_username_selected = get_vendor_username(cursor, vendor_list.get(i));
+                    startActivity(new Intent(View_vendors.this, Request_time_total.class));
+                }
+            });
 
             layout.addView(company_name, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
 
-            layout.addView(select_svs);
+            layout.addView(select_vd);
 
 
 //            TextView break_line= new TextView(this);
@@ -237,5 +258,32 @@ public class View_vendors extends AppCompatActivity {
             }
         }
         return price;
+    }
+
+    public static String get_vendor_username(Cursor c, String company_name){
+        c.moveToFirst();
+//        Log.d("Creation", "inside if!");
+        String vendor_username = " ";
+        if (c.moveToFirst()){
+//            Log.d("Creation", "inside if!");
+            while(!c.isAfterLast()){
+                Log.d("Creation", "we are at: ");
+                Log.d("Creation", c.getString(c.getColumnIndex("company")));
+                Log.d("Creation", "parameter is: ");
+                Log.d("Creation", company_name);
+//                Log.d("Creation", "inside while!");
+                if(c.getString(c.getColumnIndex("company")).equals(company_name)){
+                    Log.d("Creation", "inside if!");
+                    vendor_username = c.getString(c.getColumnIndex("vendor_username"));
+//                    break;
+                }
+                else{
+                    Log.d("Creation", "not equal");
+                }
+//                String data = c.getString(c.getColumnIndex("company"));
+                c.moveToNext();
+            }
+        }
+        return vendor_username;
     }
 }
