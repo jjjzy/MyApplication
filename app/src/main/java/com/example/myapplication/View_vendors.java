@@ -26,7 +26,9 @@ public class View_vendors extends AppCompatActivity {
     ArrayList<String> vendor_username_list = new ArrayList<String>();
     LinearLayout ll;
 
-    public static String vendor_username_selected;
+    public static String vendor_username_selected = " ";
+
+    public static int index;
 
 //    PopupWindow popUp;
 //    LinearLayout layout;
@@ -72,14 +74,14 @@ public class View_vendors extends AppCompatActivity {
 //        popUp.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         WindowManager.LayoutParams layout_param = getWindow().getAttributes();
-
-        for(int i = 0; i < vendor_list.size(); i++){
+        cursor.moveToFirst();
+        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             Button btn = new Button(this);
-            btn.setId(i);
-            btn.setText(vendor_list.get(i));
+//            btn.setId(i);
+            btn.setText(cursor.getString(cursor.getColumnIndex("company")));
 
             final PopupWindow popUp;
             final LinearLayout layout;
@@ -91,25 +93,31 @@ public class View_vendors extends AppCompatActivity {
             layout.setOrientation(LinearLayout.VERTICAL);
 
             TextView company_name= new TextView(this);
-            company_name.setText("Company name: " +  vendor_list.get(i) + "\n" + "\n" +
-                    "Address: "  + get_address(cursor, vendor_list.get(i)) + "\n" + "\n" +
-                    "Phone number: " + get_phone(cursor, vendor_list.get(i)) + "\n" + "\n" +
-                    "Email: " + get_email(cursor, vendor_list.get(i)) + "\n" + "\n" +
-                    "Price: " + get_price(cursor, vendor_list.get(i)));
+            company_name.setText("Company name: " +  cursor.getString(cursor.getColumnIndex("company")) + "\n" + "\n" +
+                    "Address: "  + cursor.getString(cursor.getColumnIndex("address")) + "\n" + "\n" +
+                    "Phone number: " + cursor.getString(cursor.getColumnIndex("phone")) + "\n" + "\n" +
+                    "Email: " + cursor.getString(cursor.getColumnIndex("email")) + "\n" + "\n" +
+                    "Price: " + cursor.getString(cursor.getColumnIndex("price")));
             company_name.setTextSize(30);
             company_name.setTextColor(Color.rgb(0,0,0));
 //            company_name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             company_name.setSingleLine(false);
 
-            Button select_vd = new Button(this);
+            final Button select_vd = new Button(this);
 //            select_svs.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.WRAP_CONTENT));
-//            select_svs.
+            select_vd.setId(cursor.getPosition());
             select_vd.setText("Select this vendor");
 //            vendor_username_selected = vendor_username_list.get(i);
 //            final int index = i;
+//            vendor_username_selected = cursor.getString(cursor.getColumnIndex("username"));
+//            int index = cursor.getPosition();
             select_vd.setOnClickListener(new View.OnClickListener(){
+
                 public void onClick(View view){
-//                    vendor_username_selected = get_vendor_username(cursor, vendor_list.get(i));
+//                    vendor_username_selected = cursor.getString(cursor.getColumnIndex("username"));
+//                    Log.d("Creation", cursor.getString(cursor.getColumnIndex("username")));
+//                    vendor_username_selected = "werwer";
+                    index = select_vd.getId();
                     startActivity(new Intent(View_vendors.this, Request_time_total.class));
                 }
             });
@@ -147,7 +155,7 @@ public class View_vendors extends AppCompatActivity {
 
                 }
             });
-
+//
             ll.addView(btn, params);
         }
     }
