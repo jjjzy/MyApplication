@@ -90,8 +90,13 @@ public class View_vendors extends AppCompatActivity {
 //            company_name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             company_name.setSingleLine(false);
 
+            Button select_svs = new Button(this);
+            select_svs.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.WRAP_CONTENT));
+
             layout.addView(company_name, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            layout.addView(select_svs);
 
 
 //            TextView break_line= new TextView(this);
