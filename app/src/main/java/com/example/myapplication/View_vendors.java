@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class View_vendors extends AppCompatActivity {
 
     public static int index;
 
+    ScrollView sv;
+
 //    PopupWindow popUp;
 //    LinearLayout layout;
 
@@ -43,6 +46,8 @@ public class View_vendors extends AppCompatActivity {
         selected_text = Request_Service_activity.selected_text;
         db = new DatabaseHelper(this);
         ll = (LinearLayout)findViewById(R.id.ll);
+        sv = (ScrollView) findViewById(R.id.sv);
+
         final Cursor cursor = db.return_vendor(selected_text.toString());
         cursor.moveToFirst();
 
@@ -80,6 +85,7 @@ public class View_vendors extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             Button btn = new Button(this);
+            btn.setWidth(5);
 //            btn.setId(i);
             btn.setText(cursor.getString(cursor.getColumnIndex("company")));
 
@@ -155,8 +161,11 @@ public class View_vendors extends AppCompatActivity {
 
                 }
             });
+
+//            sv.addView(btn, params);
 //
-            ll.addView(btn, params);
+//            sv.addView(ll);
+            ll.addView(btn);
         }
     }
 
