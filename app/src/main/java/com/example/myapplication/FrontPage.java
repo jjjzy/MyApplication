@@ -13,6 +13,7 @@ public class FrontPage extends AppCompatActivity {
     Button b2;
     Button b3;
     Button b4;
+    Button b5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,9 @@ public class FrontPage extends AppCompatActivity {
 
         b1 = (Button) findViewById(R.id.request);
         b2 = (Button) findViewById(R.id.history);
-        b3= (Button) findViewById(R.id.Settings);
+        b3 = (Button) findViewById(R.id.Settings);
         b4 = (Button) findViewById(R.id.logout);
+        b5 = (Button) findViewById(R.id.change_cancel_request);
 
         b1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -46,6 +48,12 @@ public class FrontPage extends AppCompatActivity {
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,MainActivity.class);
                 startActivity(in);
+            }
+        });
+
+        b5.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(FrontPage.this, Cancel_change_requests.class));
             }
         });
 
