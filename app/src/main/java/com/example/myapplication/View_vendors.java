@@ -45,8 +45,8 @@ public class View_vendors extends AppCompatActivity {
 
         selected_text = Request_Service_activity.selected_text;
         db = new DatabaseHelper(this);
-        ll = (LinearLayout)findViewById(R.id.ll);
-        sv = (ScrollView) findViewById(R.id.sv);
+        ll = (LinearLayout)findViewById(R.id.ll_view_vendor);
+        sv = (ScrollView) findViewById(R.id.sv_history);
 
         final Cursor cursor = db.return_vendor(selected_text.toString());
         cursor.moveToFirst();
