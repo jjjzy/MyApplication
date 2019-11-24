@@ -51,14 +51,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.83" />
 
-    <Button
-        android:id="@+id/change_cancel_request"
-        android:layout_width="213dp"
-        android:layout_height="60dp"
-        android:text="Change or Cancel requests"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.687" />
+<!--    <Button-->
+<!--        android:id="@+id/change_cancel_request"-->
+<!--        android:layout_width="213dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:text="Change or Cancel requests"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.687" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
