@@ -38,6 +38,7 @@ public class FrontPage extends AppCompatActivity {
                 startActivity(in);
             }
         });
+
         b3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,Settings.class);
