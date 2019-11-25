@@ -55,7 +55,7 @@ public class ResetPassword extends AppCompatActivity {
                             {
                                 db.changePassword(s1,s);
                                 Toast.makeText(getApplicationContext(),"Password successfully changed",Toast.LENGTH_SHORT).show();
-                                Intent in = new Intent(ResetPassword.this ,MainActivity.class);
+                                Intent in = new Intent(ResetPassword.this ,CustomerLogin.class);
                                 startActivity(in);
                             }
                             else Toast.makeText(getApplicationContext(),"Maiden Last name/Username not corect",Toast.LENGTH_SHORT).show();

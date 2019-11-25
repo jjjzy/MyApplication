@@ -16,6 +16,7 @@ public class VendorLogin extends AppCompatActivity {
     Button login;
     Button resetPsw;
     DatabaseHelper db;
+    Button venreg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +28,18 @@ public class VendorLogin extends AppCompatActivity {
         login = (Button) findViewById(R.id.vendorLogin2);
         resetPsw = (Button) findViewById(R.id.resetPsw2);
         db = new DatabaseHelper(this);
+        venreg = (Button) findViewById(R.id.venreg);
 
         resetPsw.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent in = new Intent(VendorLogin.this,VendorReset.class);
+                startActivity(in);
+            }
+        });
+
+        venreg.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent in = new Intent(VendorLogin.this,VendorRegister.class);
                 startActivity(in);
             }
         });
