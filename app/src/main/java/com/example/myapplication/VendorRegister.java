@@ -42,7 +42,7 @@ public class VendorRegister extends AppCompatActivity {
         vendorUsername = (EditText) findViewById(R.id.vendorUsername);
         vendorPsw = (EditText) findViewById(R.id.vendorPsw);
         vendorPsw2 = (EditText) findViewById(R.id.vendorPsw2);
-        register = (Button) findViewById(R.id.submitVendor);
+        register = (Button) findViewById(R.id.vendorRegister);
         db = new DatabaseHelper(this);
         answer = (EditText) findViewById(R.id.answer3);
         email = (EditText) findViewById(R.id.email);
