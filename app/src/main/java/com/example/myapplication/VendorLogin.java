@@ -25,7 +25,7 @@ public class VendorLogin extends AppCompatActivity {
 
         vendorLogin = (EditText) findViewById(R.id.vendorUsername2);
         vendorLoginPassword=(EditText) findViewById(R.id.vendorPsw3);
-        login = (Button) findViewById(R.id.vendorLogin2);
+        login = (Button) findViewById(R.id.vendorLogin);
         resetPsw = (Button) findViewById(R.id.resetPsw2);
         db = new DatabaseHelper(this);
         venreg = (Button) findViewById(R.id.venreg);
