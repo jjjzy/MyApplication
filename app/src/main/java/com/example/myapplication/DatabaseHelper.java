@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,5);
+        super(context,"Login.db",null,6);
 
     }
 
@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
-        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total){
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_username", user_username);
@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("service", service);
         contentValues.put("date", date);
         contentValues.put("total", total);
+        contentValues.put("status", status);
         long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false

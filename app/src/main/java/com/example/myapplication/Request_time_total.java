@@ -30,7 +30,11 @@ public class Request_time_total extends AppCompatActivity implements
     TextView view_vendor_service;
 
     int day, month, year, hour, minute;
-    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
+    int dayFinal = 0;
+    int monthFinal = 0;
+    int yearFinal = 0;
+    int hourFinal = 0;
+    int minuteFinal = 0;
 
     Button submit_request_button;
 
@@ -94,10 +98,12 @@ public class Request_time_total extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
-                Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")));
-                if(insert == true){
+                Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")),"Pending");
+                if((insert == true) && (dayFinal != 0) && (hourFinal != 0)){
                     Toast.makeText(getApplicationContext(),"Request succesfully", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(getApplicationContext(),"Please choose date and time!", Toast.LENGTH_SHORT).show();
             }
         });
 

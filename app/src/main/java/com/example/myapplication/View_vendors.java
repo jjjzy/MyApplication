@@ -157,7 +157,7 @@ public class View_vendors extends AppCompatActivity {
                 public void onClick(View view){
                     popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
 //                        popUp.show
-                    popUp.update(50, 50, 1500, 1400);
+                    popUp.update(50, 50, 1500, 1000);
 
                 }
             });
