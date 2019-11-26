@@ -169,4 +169,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getString(cursor.getColumnIndex("company"));
     }
 
+    public void change_status_to_cancel(String new_status, String user_username, String vendor_username, String status, String date){
+        SQLiteDatabase db = this.getReadableDatabase();
+//        db.rawQuery("delete from orders where user_username=? and vendor_username = ? and service = ? and date = ? and total = ? and status = ?",new String[] {user_username, vendor_username, service, date, total, status});
+//        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status", new_status);
+        String [] args = new String[]{user_username, vendor_username, status, date};
+        db.update("user", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
+    }
+
 }

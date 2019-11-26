@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,7 @@ public class History extends AppCompatActivity {
 
         current_user_username = CustomerLogin.s;
 
-        Cursor cursor = db.retrive_order_hist_basedon_username(current_user_username);
+        final Cursor cursor = db.retrive_order_hist_basedon_username(current_user_username);
 
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
             Button order_hist_button = new Button(this);
@@ -74,6 +75,30 @@ public class History extends AppCompatActivity {
             text_to_be_shown.setSingleLine(false);
 
             layout.addView(text_to_be_shown);
+
+            if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending")){
+                Log.d("Creation", "this is pending");
+                Button cancel_order = new Button(this);
+                cancel_order.setText("Cancel this order");
+
+                cancel_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.change_status_to_cancel("Cancel", cursor.getString(cursor.getColumnIndex("user_username")),
+                                cursor.getString(cursor.getColumnIndex("vendor_username")),
+                                cursor.getString(cursor.getColumnIndex("status")), cursor.getString(cursor.getColumnIndex("date")));
+                    }
+                });
+
+                Button change_order = new Button(this);
+                change_order.setText("change this order");
+
+                layout.addView(cancel_order);
+                layout.addView(change_order);
+            }
+
+
+
 
             popUp.setContentView(layout);
 
