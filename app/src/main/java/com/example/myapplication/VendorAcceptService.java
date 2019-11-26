@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,7 @@ public class VendorAcceptService extends AppCompatActivity {
 
         current_vendor_username = VendorLogin.n;
 
-        Cursor cursor = db.retrive_vendor__orders(current_vendor_username,"Pending");
+      final  Cursor cursor = db.retrive_vendor__orders(current_vendor_username,"Pending");
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Button order_hist_button = new Button(this);
@@ -87,7 +88,32 @@ public class VendorAcceptService extends AppCompatActivity {
             order_hist_button.setText(text_to_display_on_button);
 
             ll.addView(order_hist_button);
+
+            Button accept_order = new Button(this);
+            accept_order.setText("Accept this order");
+            accept_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    /*   db.setStatus(current_vendor_username,
+                                cursor.getString(cursor.getColumnIndex("user_username")),
+                                cursor.getString(cursor.getColumnIndex("date")),"Accepted");*/
+
+                        Log.d("Creation", cursor.getString(cursor.getColumnIndex("user_username")));
+
+                        Log.d("Creation", cursor.getString(cursor.getColumnIndex("date")));
+                       // db.setStatus(current_vendor_username,user_username,date,"Accepted");
+                    }
+                });
+
+                Button decline_order = new Button(this);
+                decline_order.setText("Reject this order");
+
+                layout.addView(accept_order);
+                layout.addView(decline_order);
+
         }
+
+
     }
 
     public String[] change_time_format(String old_time) {

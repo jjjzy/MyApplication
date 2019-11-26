@@ -184,6 +184,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public void setStatus (String vendor_username,String user_username, String date, String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status", status);
+        String [] args = new String[]{vendor_username,user_username,date};
+        db.update("orders", cv,"vendor_username=? and user_username=? and date=? ",args);
+
+    }
+
 
 
 }
