@@ -169,4 +169,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getString(cursor.getColumnIndex("company"));
     }
 
+
+    public String get_customer_fullname_based_on_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from user where username=?",new String[] {username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("username"));
+    }
+
+    public Cursor retrive_vendor__orders(String username,String status){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=? and status=?",new String[] {username,status});
+        return cursor;
+    }
+
+
+
+
 }

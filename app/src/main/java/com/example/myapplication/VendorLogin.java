@@ -18,6 +18,8 @@ public class VendorLogin extends AppCompatActivity {
     DatabaseHelper db;
     Button venreg;
 
+    public static String n;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +48,13 @@ public class VendorLogin extends AppCompatActivity {
 
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                String s = vendorLogin.getText().toString();
+                n = vendorLogin.getText().toString();
                 String p = vendorLoginPassword.getText().toString();
-                Boolean verify = db.checkVendorInfo(s,p); //check if the username and password matche
+                Boolean verify = db.checkVendorInfo(n,p); //check if the username and password matche
                 if (verify==true) {
                     Toast.makeText(getApplicationContext(),"Successfully Login", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(VendorLogin.this, VendorFrontPage.class);
+                    startActivity(in);
                 }
                 else Toast.makeText(getApplicationContext(), "Wrong username/password",Toast.LENGTH_SHORT).show();
 
