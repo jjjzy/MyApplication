@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +22,8 @@ public class VendorAcceptService extends AppCompatActivity {
     String current_vendor_username;
     ScrollView sv;
     LinearLayout ll;
-
+    public static int position;
+    public static int position2;
     //String current_user_username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class VendorAcceptService extends AppCompatActivity {
         current_vendor_username = VendorLogin.n;
 
       final  Cursor cursor = db.retrive_vendor__orders(current_vendor_username,"Pending");
+
+        final  Cursor cursor2 = db.retrive_vendor__orders(current_vendor_username,"Pending");
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Button order_hist_button = new Button(this);
@@ -89,7 +92,8 @@ public class VendorAcceptService extends AppCompatActivity {
 
             ll.addView(order_hist_button);
 
-            Button accept_order = new Button(this);
+           final Button accept_order = new Button(this);
+           accept_order.setId(cursor.getPosition());
             accept_order.setText("Accept this order");
             accept_order.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -97,18 +101,39 @@ public class VendorAcceptService extends AppCompatActivity {
                     /*   db.setStatus(current_vendor_username,
                                 cursor.getString(cursor.getColumnIndex("user_username")),
                                 cursor.getString(cursor.getColumnIndex("date")),"Accepted");*/
-
-                        Log.d("Creation", cursor.getString(cursor.getColumnIndex("user_username")));
-
-                        Log.d("Creation", cursor.getString(cursor.getColumnIndex("date")));
+                        position = accept_order.getId();
                        // db.setStatus(current_vendor_username,user_username,date,"Accepted");
+                        cursor2.moveToFirst();
+                        for(int i = 0; i < position; i++){
+                            cursor2.moveToNext();
+                        }
+                        db.setStatus(current_vendor_username,
+                                cursor2.getString(cursor2.getColumnIndex("user_username")),
+                                cursor2.getString(cursor2.getColumnIndex("date")),"Accepted");
+                        Toast.makeText(getApplicationContext(), "Service accepted",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
-                Button decline_order = new Button(this);
+             final   Button decline_order = new Button(this);
                 decline_order.setText("Reject this order");
+            decline_order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    position2 = decline_order.getId();
+                    cursor2.moveToFirst();
+                    for(int i = 0; i < position2; i++){
+                        cursor2.moveToNext();
+                    }
+                    db.setStatus(current_vendor_username,
+                            cursor2.getString(cursor2.getColumnIndex("user_username")),
+                            cursor2.getString(cursor2.getColumnIndex("date")),"Declined");
+                    Toast.makeText(getApplicationContext(), "Service rejected",Toast.LENGTH_SHORT).show();
 
-                layout.addView(accept_order);
+                }
+            });
+
+            layout.addView(accept_order);
                 layout.addView(decline_order);
 
         }
