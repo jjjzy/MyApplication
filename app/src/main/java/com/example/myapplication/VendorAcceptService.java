@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class VendorAcceptService extends AppCompatActivity {
@@ -25,17 +28,24 @@ public class VendorAcceptService extends AppCompatActivity {
     LinearLayout ll;
     public static int position;
     public static int position2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_accept_service);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         sv = (ScrollView) findViewById(R.id.vendor_history);
         ll = (LinearLayout) findViewById(R.id.vnl_history);
         db = new DatabaseHelper(this);
         current_vendor_username = VendorLogin.n;
 
-        final  Cursor cursor = db.retrive_vendor__orders(current_vendor_username, "Pending");
-        final  Cursor cursor2 = db.retrive_vendor__orders(current_vendor_username, "Pending");
+        final Cursor cursor = db.retrive_vendor__orders(current_vendor_username, "Pending");
+        final Cursor cursor2 = db.retrive_vendor__orders(current_vendor_username, "Pending");
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Button order_hist_button = new Button(this);
@@ -87,41 +97,41 @@ public class VendorAcceptService extends AppCompatActivity {
 
             ll.addView(order_hist_button);
 
-           final Button accept_order = new Button(this);
-           accept_order.setId(cursor.getPosition());
+            final Button accept_order = new Button(this);
+            accept_order.setId(cursor.getPosition());
             accept_order.setText("Accept this order");
             accept_order.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        position = accept_order.getId();
-                        cursor2.moveToFirst();
-                        for(int i = 0; i < position; i++){
-                            cursor2.moveToNext();
-                        }
-                        db.setStatus(current_vendor_username,
-                                cursor2.getString(cursor2.getColumnIndex("user_username")),
-                                cursor2.getString(cursor2.getColumnIndex("date")),"Accepted");
-                        Toast.makeText(getApplicationContext(), "Service accepted",Toast.LENGTH_SHORT).show();
-                        Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
-                        startActivity(reload);
-
+                @Override
+                public void onClick(View v) {
+                    position = accept_order.getId();
+                    cursor2.moveToFirst();
+                    for (int i = 0; i < position; i++) {
+                        cursor2.moveToNext();
                     }
-                });
+                    db.setStatus(current_vendor_username,
+                            cursor2.getString(cursor2.getColumnIndex("user_username")),
+                            cursor2.getString(cursor2.getColumnIndex("date")), "Accepted");
+                    Toast.makeText(getApplicationContext(), "Service accepted", Toast.LENGTH_SHORT).show();
+                    Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
+                    startActivity(reload);
 
-             final   Button decline_order = new Button(this);
-                decline_order.setText("Reject this order");
+                }
+            });
+
+            final Button decline_order = new Button(this);
+            decline_order.setText("Reject this order");
             decline_order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     position2 = decline_order.getId();
                     cursor2.moveToFirst();
-                    for(int i = 0; i < position2; i++){
+                    for (int i = 0; i < position2; i++) {
                         cursor2.moveToNext();
                     }
                     db.setStatus(current_vendor_username,
                             cursor2.getString(cursor2.getColumnIndex("user_username")),
-                            cursor2.getString(cursor2.getColumnIndex("date")),"Declined");
-                    Toast.makeText(getApplicationContext(), "Service rejected",Toast.LENGTH_SHORT).show();
+                            cursor2.getString(cursor2.getColumnIndex("date")), "Declined");
+                    Toast.makeText(getApplicationContext(), "Service rejected", Toast.LENGTH_SHORT).show();
                     Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
                     startActivity(reload);
 
@@ -129,7 +139,7 @@ public class VendorAcceptService extends AppCompatActivity {
             });
 
             layout.addView(accept_order);
-                layout.addView(decline_order);
+            layout.addView(decline_order);
 
         }
 
@@ -146,5 +156,17 @@ public class VendorAcceptService extends AppCompatActivity {
         return Arr;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 
 }

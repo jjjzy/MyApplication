@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class VendorHistory extends AppCompatActivity {
@@ -26,6 +29,24 @@ public class VendorHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_history);
+
+       /* getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        public boolean onOptionsItemSelected(MenuItem item){
+            int id = item.getItemId();
+
+            if (id == android.R.id.home){
+                this.finish();
+            }
+
+            return super.onOptionsItemSelected(item);
+        }*/
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
 
         sv2 = (ScrollView) findViewById(R.id.sv_history2);
         ll3 = (LinearLayout) findViewById(R.id.ll_history2);
@@ -97,5 +118,19 @@ public class VendorHistory extends AppCompatActivity {
         Arr[0] = new_date;
         Arr[1] = new_time;
         return Arr;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }
