@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,13 +11,16 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class History extends AppCompatActivity {
+public class History extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     LinearLayout ll;
     DatabaseHelper db;
@@ -24,12 +29,12 @@ public class History extends AppCompatActivity {
     int position;
     int position2;
 
-//    int day, month, year, hour, minute;
-//    int dayFinal = 0;
-//    int monthFinal = 0;
-//    int yearFinal = 0;
-//    int hourFinal = 0;
-//    int minuteFinal = 0;
+    int day, month, year, hour, minute;
+    int dayFinal = 0;
+    int monthFinal = 0;
+    int yearFinal = 0;
+    int hourFinal = 0;
+    int minuteFinal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,30 +91,27 @@ public class History extends AppCompatActivity {
 
             layout.addView(text_to_be_shown);
 
-            if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending")){
-                if(cursor.getString(cursor.getColumnIndex("status")).equals("Accepted")){
-                    Log.d("Creation", "this is pending");
-                    final Button cancel_order = new Button(this);
-                    cancel_order.setText("Cancel this order");
-                    cancel_order.setId(cursor.getPosition());
-
-                    cancel_order.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            position = cancel_order.getId();
-                            cursor2.moveToFirst();
-                            for(int i = 0; i < position; i++){
-                                cursor2.moveToNext();
-                            }
-
-                            db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
-                                    cursor2.getString(cursor2.getColumnIndex("vendor_username")),
-                                    cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+            if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending") ||
+                    cursor.getString(cursor.getColumnIndex("status")).equals("Accepted")){
+                Log.d("Creation", "this is pending");
+                final Button cancel_order = new Button(this);
+                cancel_order.setText("Cancel this order");
+                cancel_order.setId(cursor.getPosition());
+                cancel_order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        position = cancel_order.getId();
+                        cursor2.moveToFirst();
+                        for(int i = 0; i < position; i++){
+                            cursor2.moveToNext();
                         }
-                    });
+                        db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
+                                cursor2.getString(cursor2.getColumnIndex("vendor_username")),
+                                cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+                    }
+                });
+                layout.addView(cancel_order);
 
-                    layout.addView(cancel_order);
-                }
 
 
                 final Button change_order = new Button(this);
@@ -160,5 +162,15 @@ public class History extends AppCompatActivity {
         Arr[0] = new_date;
         Arr[1] = new_time;
         return Arr;
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
     }
 }
