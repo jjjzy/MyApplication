@@ -81,7 +81,7 @@ public class View_vendors extends AppCompatActivity {
         WindowManager.LayoutParams layout_param = getWindow().getAttributes();
         cursor.moveToFirst();
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             Button btn = new Button(this);
@@ -128,8 +128,7 @@ public class View_vendors extends AppCompatActivity {
                 }
             });
 
-            layout.addView(company_name, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            layout.addView(company_name);
 
             layout.addView(select_vd);
 
@@ -155,9 +154,11 @@ public class View_vendors extends AppCompatActivity {
 
             btn.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
-                    popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
+//                    popUp.showAtLocation(ll, Gravity.CENTER, 10, 10);
+                    popUp.showAtLocation(ll, Gravity.CENTER, 0, 0);
 //                        popUp.show
-                    popUp.update(50, 50, 1500, 1000);
+                    popUp.update(params.WRAP_CONTENT, params.WRAP_CONTENT);
+//                    popup.upd
 
                 }
             });

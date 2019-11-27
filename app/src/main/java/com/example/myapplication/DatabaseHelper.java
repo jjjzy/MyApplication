@@ -169,4 +169,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getString(cursor.getColumnIndex("company"));
     }
 
+
+    public String get_customer_fullname_based_on_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from user where username=?",new String[] {username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("username"));
+    }
+
+    public Cursor retrive_vendor__orders(String username,String status){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=? and status=?",new String[] {username,status});
+        return cursor;
+    }
+
+    public Cursor retrive_all_vendor__orders(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=?",new String[] {username});
+        return cursor;
+    }
+
+    public void setStatus (String vendor_username,String user_username, String date, String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status", status);
+        String [] args = new String[]{vendor_username,user_username,date};
+        db.update("orders", cv,"vendor_username=? and user_username=? and date=? ",args);
+
+    }
+
+
+
+    public void change_status_to_cancel(String new_status, String user_username, String vendor_username, String status, String date){
+        SQLiteDatabase db = this.getReadableDatabase();
+//        db.rawQuery("delete from orders where user_username=? and vendor_username = ? and service = ? and date = ? and total = ? and status = ?",new String[] {user_username, vendor_username, service, date, total, status});
+//        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status", new_status);
+        String [] args = new String[]{user_username, vendor_username, status, date};
+        db.update("orders", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -81,9 +82,9 @@ public class Request_time_total extends AppCompatActivity implements
         });
 
         view_vendor_service = (TextView) findViewById(R.id.service_vendor_viewer);
-        view_vendor_service.setText("Here is your request details:" + "\n" +
-                "Your username: " + user_username + "\n" +
-                "Selected Service: " + service_selected + "\n" +
+        view_vendor_service.setText(
+                "Username: " + user_username + "\n" +
+                "Service: " + service_selected + "\n" +
                 "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))
 //                "year: " + yearFinal + "\n" +
 //                "month: " + monthFinal + "\n" +
@@ -101,6 +102,8 @@ public class Request_time_total extends AppCompatActivity implements
                 Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")),"Pending");
                 if((insert == true) && (dayFinal != 0) && (hourFinal != 0)){
                     Toast.makeText(getApplicationContext(),"Request succesfully", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(Request_time_total.this, FrontPage.class);
+                    startActivity(in);
                 }
                 else
                     Toast.makeText(getApplicationContext(),"Please choose date and time!", Toast.LENGTH_SHORT).show();
@@ -130,11 +133,11 @@ public class Request_time_total extends AppCompatActivity implements
         hourFinal = hourOfDay;
         minuteFinal = minute;
 
-        view_d_t.setText("year: " + yearFinal + "\n" +
-                "month: " + monthFinal + "\n" +
-                "day: " + dayFinal + "\n" +
-                "hour: " + hourFinal + "\n" +
-                "minute: " + minuteFinal + "\n");
+        view_d_t.setText("Year: " + yearFinal + "\n" +
+                "Month: " + monthFinal + "\n" +
+                "Day: " + dayFinal + "\n" +
+                "Hour: " + hourFinal + "\n" +
+                "Minute: " + minuteFinal + "\n");
     }
 }
 
