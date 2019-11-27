@@ -8,8 +8,8 @@
 
     <ScrollView
         android:id="@+id/sv_view_vendor"
-        android:layout_width="324dp"
-        android:layout_height="598dp"
+        android:layout_width="391dp"
+        android:layout_height="719dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

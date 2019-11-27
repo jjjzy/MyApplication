@@ -28,17 +28,17 @@ public class Request_time_total extends AppCompatActivity implements
 
     Button pick_d_t;
     TextView view_d_t;
-    TextView view_vendor_service;
+
 
     int day, month, year, hour, minute;
-    int dayFinal = 0;
-    int monthFinal = 0;
-    int yearFinal = 0;
-    int hourFinal = 0;
-    int minuteFinal = 0;
+    public static int dayFinal = 0;
+    public static int monthFinal = 0;
+    public static int yearFinal = 0;
+    public static int hourFinal = 0;
+    public static int minuteFinal = 0;
 
     Button submit_request_button;
-
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class Request_time_total extends AppCompatActivity implements
         Log.d("Creation", "user username: ");
         Log.d("Creation", user_username);
 
-        final Cursor cursor = db.return_vendor(service_selected);
+        cursor = db.return_vendor(service_selected);
         cursor.moveToFirst();
         for(int i = 0; i < View_vendors.index; i++){
             cursor.moveToNext();
@@ -81,17 +81,6 @@ public class Request_time_total extends AppCompatActivity implements
             }
         });
 
-        view_vendor_service = (TextView) findViewById(R.id.service_vendor_viewer);
-        view_vendor_service.setText(
-                "Username: " + user_username + "\n" +
-                "Service: " + service_selected + "\n" +
-                "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))
-//                "year: " + yearFinal + "\n" +
-//                "month: " + monthFinal + "\n" +
-//                "day: " + dayFinal + "\n" +
-//                "hour: " + hourFinal + "\n" +
-//                "minute: " + minuteFinal + "\n"
-                );
 
         submit_request_button = (Button) findViewById(R.id.submit_request);
 
@@ -101,12 +90,11 @@ public class Request_time_total extends AppCompatActivity implements
                 String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
                 Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")),"Pending");
                 if((insert == true) && (dayFinal != 0) && (hourFinal != 0)){
-                    Toast.makeText(getApplicationContext(),"Request succesfully", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent(Request_time_total.this, FrontPage.class);
+                    Intent in = new Intent(Request_time_total.this, Payment.class);
                     startActivity(in);
                 }
                 else
-                    Toast.makeText(getApplicationContext(),"Please choose date and time!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Please choose date/time!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -133,11 +121,15 @@ public class Request_time_total extends AppCompatActivity implements
         hourFinal = hourOfDay;
         minuteFinal = minute;
 
-        view_d_t.setText("Year: " + yearFinal + "\n" +
-                "Month: " + monthFinal + "\n" +
-                "Day: " + dayFinal + "\n" +
-                "Hour: " + hourFinal + "\n" +
-                "Minute: " + minuteFinal + "\n");
+        view_d_t.setText(
+                "Username: " + user_username + "\n" +"\n" +
+                        "Service: " + service_selected + "\n" +"\n" +
+                        "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
+                        "Date: " + monthFinal + "/" +
+                        dayFinal + "/" +
+                        yearFinal + "\n" +"\n" +
+                        "Time: " + hourFinal + ":" +
+                        minuteFinal + "\n"+"\n" );
     }
 }
 
