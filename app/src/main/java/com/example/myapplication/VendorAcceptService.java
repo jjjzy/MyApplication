@@ -157,12 +157,15 @@ public class VendorAcceptService extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
+       /* switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);*/
+        Intent myIntent = new Intent(getApplicationContext(), VendorFrontPage.class);
+        startActivityForResult(myIntent, 0);
+        return true;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
