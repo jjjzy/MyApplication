@@ -22,6 +22,14 @@ public class History extends AppCompatActivity {
 
     String current_user_username;
     int position;
+    int position2;
+
+//    int day, month, year, hour, minute;
+//    int dayFinal = 0;
+//    int monthFinal = 0;
+//    int yearFinal = 0;
+//    int hourFinal = 0;
+//    int minuteFinal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,30 +87,46 @@ public class History extends AppCompatActivity {
             layout.addView(text_to_be_shown);
 
             if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending")){
-                Log.d("Creation", "this is pending");
-                final Button cancel_order = new Button(this);
-                cancel_order.setText("Cancel this order");
-                cancel_order.setId(cursor.getPosition());
+                if(cursor.getString(cursor.getColumnIndex("status")).equals("Accepted")){
+                    Log.d("Creation", "this is pending");
+                    final Button cancel_order = new Button(this);
+                    cancel_order.setText("Cancel this order");
+                    cancel_order.setId(cursor.getPosition());
 
-                cancel_order.setOnClickListener(new View.OnClickListener() {
+                    cancel_order.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            position = cancel_order.getId();
+                            cursor2.moveToFirst();
+                            for(int i = 0; i < position; i++){
+                                cursor2.moveToNext();
+                            }
+
+                            db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
+                                    cursor2.getString(cursor2.getColumnIndex("vendor_username")),
+                                    cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+                        }
+                    });
+
+                    layout.addView(cancel_order);
+                }
+
+
+                final Button change_order = new Button(this);
+                change_order.setText("change this order");
+                change_order.setId(cursor.getPosition());
+                change_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        position = cancel_order.getId();
-                        cursor2.moveToFirst();
-                        for(int i = 0; i < position; i++){
-                            cursor2.moveToNext();
-                        }
-
-                        db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
-                                cursor2.getString(cursor2.getColumnIndex("vendor_username")),
-                                cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+//                        position = change_order.getId();
+//                        cursor2.moveToFirst();
+//                        for(int i = 0; i < position; i++){
+//                            cursor2.moveToNext();
+//                        }
                     }
                 });
 
-                Button change_order = new Button(this);
-                change_order.setText("change this order");
 
-                layout.addView(cancel_order);
                 layout.addView(change_order);
             }
 
