@@ -82,9 +82,9 @@ public class Request_time_total extends AppCompatActivity implements
         });
 
         view_vendor_service = (TextView) findViewById(R.id.service_vendor_viewer);
-        view_vendor_service.setText("Here is your request details:" + "\n" +
-                "Your username: " + user_username + "\n" +
-                "Selected Service: " + service_selected + "\n" +
+        view_vendor_service.setText(
+                "Username: " + user_username + "\n" +
+                "Service: " + service_selected + "\n" +
                 "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))
 //                "year: " + yearFinal + "\n" +
 //                "month: " + monthFinal + "\n" +
@@ -133,11 +133,11 @@ public class Request_time_total extends AppCompatActivity implements
         hourFinal = hourOfDay;
         minuteFinal = minute;
 
-        view_d_t.setText("year: " + yearFinal + "\n" +
-                "month: " + monthFinal + "\n" +
-                "day: " + dayFinal + "\n" +
-                "hour: " + hourFinal + "\n" +
-                "minute: " + minuteFinal + "\n");
+        view_d_t.setText("Year: " + yearFinal + "\n" +
+                "Month: " + monthFinal + "\n" +
+                "Day: " + dayFinal + "\n" +
+                "Hour: " + hourFinal + "\n" +
+                "Minute: " + minuteFinal + "\n");
     }
 }
 
