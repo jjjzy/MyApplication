@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".VendorAcceptService"></activity>
+        <activity android:name=".VendorHistory" />
+        <activity android:name=".VendorFrontPage" /> <!-- <activity android:name=".Cancel_change_requests" /> -->
+        <activity android:name=".Request_time_total" />
+        <activity android:name=".View_vendors" />
         <activity android:name=".CustomerLogin" />
         <activity android:name=".Settings" />
         <activity android:name=".History" />

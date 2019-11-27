@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,5);
+        super(context,"Login.db",null,6);
 
     }
 
@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
-        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total){
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_username", user_username);
@@ -54,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("service", service);
         contentValues.put("date", date);
         contentValues.put("total", total);
+        contentValues.put("status", status);
         long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false
@@ -133,7 +134,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("password", newPassword);
         String [] args = new String[]{username};
         db.update("user", cv,"username=?",args);
-
     }
 
     public void changeVendorPassword(String newPassword, String username){
@@ -142,6 +142,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("password", newPassword);
         String [] args = new String[]{username};
         db.update("vendor", cv,"username=?",args);
+    }
+
+    public Cursor return_vendor(String username){
+//        Log.d("Creation", username);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from vendor where service=?",new String[] {username});
+//        if(cursor.getCount() > 0 ) return true;
+//        else return false;
+        return cursor;
+    }
+
+    public Cursor retrive_order_hist_basedon_username(String username){
+//        Log.d("Creation", username);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where user_username=?",new String[] {username});
+//        if(cursor.getCount() > 0 ) return true;
+//        else return false;
+        return cursor;
+    }
+
+    public String search_company_name_based_on_vendor_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from vendor where username=?",new String[] {username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("company"));
+    }
+
+
+    public String get_customer_fullname_based_on_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from user where username=?",new String[] {username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("username"));
+    }
+
+    public Cursor retrive_vendor__orders(String username,String status){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=? and status=?",new String[] {username,status});
+        return cursor;
+    }
+
+    public Cursor retrive_all_vendor__orders(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=?",new String[] {username});
+        return cursor;
+    }
+
+    public void setStatus (String vendor_username,String user_username, String date, String status){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status", status);
+        String [] args = new String[]{vendor_username,user_username,date};
+        db.update("orders", cv,"vendor_username=? and user_username=? and date=? ",args);
 
     }
+
+
+
 }
