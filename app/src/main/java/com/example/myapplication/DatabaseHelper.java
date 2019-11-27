@@ -176,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("status", new_status);
         String [] args = new String[]{user_username, vendor_username, status, date};
-        db.update("user", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
+        db.update("orders", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
     }
 
 }

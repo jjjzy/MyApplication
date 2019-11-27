@@ -21,6 +21,7 @@ public class History extends AppCompatActivity {
     DatabaseHelper db;
 
     String current_user_username;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class History extends AppCompatActivity {
         current_user_username = CustomerLogin.s;
 
         final Cursor cursor = db.retrive_order_hist_basedon_username(current_user_username);
+        final Cursor cursor2 = db.retrive_order_hist_basedon_username(current_user_username);
 
         for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
             Button order_hist_button = new Button(this);
@@ -78,15 +80,22 @@ public class History extends AppCompatActivity {
 
             if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending")){
                 Log.d("Creation", "this is pending");
-                Button cancel_order = new Button(this);
+                final Button cancel_order = new Button(this);
                 cancel_order.setText("Cancel this order");
+                cancel_order.setId(cursor.getPosition());
 
                 cancel_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.change_status_to_cancel("Cancel", cursor.getString(cursor.getColumnIndex("user_username")),
-                                cursor.getString(cursor.getColumnIndex("vendor_username")),
-                                cursor.getString(cursor.getColumnIndex("status")), cursor.getString(cursor.getColumnIndex("date")));
+                        position = cancel_order.getId();
+                        cursor2.moveToFirst();
+                        for(int i = 0; i < position; i++){
+                            cursor2.moveToNext();
+                        }
+
+                        db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
+                                cursor2.getString(cursor2.getColumnIndex("vendor_username")),
+                                cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
                     }
                 });
 
