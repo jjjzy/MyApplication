@@ -183,6 +183,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor retrive_all_vendor__orders(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from orders where vendor_username=?",new String[] {username});
+        return cursor;
+    }
 
     public void setStatus (String vendor_username,String user_username, String date, String status){
         SQLiteDatabase db = this.getWritableDatabase();

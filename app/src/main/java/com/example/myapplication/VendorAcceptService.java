@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,20 +25,17 @@ public class VendorAcceptService extends AppCompatActivity {
     LinearLayout ll;
     public static int position;
     public static int position2;
-    //String current_user_username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_accept_service);
-
+        sv = (ScrollView) findViewById(R.id.vendor_history);
         ll = (LinearLayout) findViewById(R.id.vnl_history);
         db = new DatabaseHelper(this);
-
         current_vendor_username = VendorLogin.n;
 
-      final  Cursor cursor = db.retrive_vendor__orders(current_vendor_username,"Pending");
-
-        final  Cursor cursor2 = db.retrive_vendor__orders(current_vendor_username,"Pending");
+        final  Cursor cursor = db.retrive_vendor__orders(current_vendor_username, "Pending");
+        final  Cursor cursor2 = db.retrive_vendor__orders(current_vendor_username, "Pending");
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Button order_hist_button = new Button(this);
@@ -70,19 +68,16 @@ public class VendorAcceptService extends AppCompatActivity {
             text_to_be_shown.setEllipsize(TextUtils.TruncateAt.END);
             text_to_be_shown.setTextSize(30);
             text_to_be_shown.setTextColor(Color.rgb(0, 0, 0));
-//            company_name.setGravity(View.TEXT_ALIGNMENT_CENTER);
             text_to_be_shown.setSingleLine(false);
 
             layout.addView(text_to_be_shown);
 
             popUp.setContentView(layout);
 
-
             order_hist_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     popUp.showAtLocation(ll, Gravity.CENTER, 0, 0);
-//                        popUp.show
                     popUp.update(params.WRAP_CONTENT, params.WRAP_CONTENT);
                 }
             });
@@ -98,11 +93,7 @@ public class VendorAcceptService extends AppCompatActivity {
             accept_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    /*   db.setStatus(current_vendor_username,
-                                cursor.getString(cursor.getColumnIndex("user_username")),
-                                cursor.getString(cursor.getColumnIndex("date")),"Accepted");*/
                         position = accept_order.getId();
-                       // db.setStatus(current_vendor_username,user_username,date,"Accepted");
                         cursor2.moveToFirst();
                         for(int i = 0; i < position; i++){
                             cursor2.moveToNext();
@@ -111,6 +102,8 @@ public class VendorAcceptService extends AppCompatActivity {
                                 cursor2.getString(cursor2.getColumnIndex("user_username")),
                                 cursor2.getString(cursor2.getColumnIndex("date")),"Accepted");
                         Toast.makeText(getApplicationContext(), "Service accepted",Toast.LENGTH_SHORT).show();
+                        Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
+                        startActivity(reload);
 
                     }
                 });
@@ -129,6 +122,8 @@ public class VendorAcceptService extends AppCompatActivity {
                             cursor2.getString(cursor2.getColumnIndex("user_username")),
                             cursor2.getString(cursor2.getColumnIndex("date")),"Declined");
                     Toast.makeText(getApplicationContext(), "Service rejected",Toast.LENGTH_SHORT).show();
+                    Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
+                    startActivity(reload);
 
                 }
             });
@@ -150,4 +145,6 @@ public class VendorAcceptService extends AppCompatActivity {
         Arr[1] = new_time;
         return Arr;
     }
+
+
 }
