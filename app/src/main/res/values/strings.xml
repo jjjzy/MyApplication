@@ -14,4 +14,33 @@
     </string-array>
 
 
+    <string-array name="months">
+        <item>JAN 01</item>
+        <item>FEB 02</item>
+        <item>MAR 03</item>
+        <item>APR 04</item>
+        <item>MAY 05</item>
+        <item>JUN 06</item>
+        <item>JUL 07</item>
+        <item>AUG 08</item>
+        <item>SEP 09</item>
+        <item>OCT 10</item>
+        <item>NOV 11</item>
+        <item>DEC 12</item>
+    </string-array>
+
+    <string-array name="years">
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
 </resources>
