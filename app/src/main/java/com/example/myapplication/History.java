@@ -86,8 +86,9 @@ public class History extends AppCompatActivity {
 
             layout.addView(text_to_be_shown);
 
-            if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending")){
-                if(cursor.getString(cursor.getColumnIndex("status")).equals("Accepted")){
+            if(cursor.getString(cursor.getColumnIndex("status")).equals("Pending") ||
+                    cursor.getString(cursor.getColumnIndex("status")).equals("Accepted")){
+
                     Log.d("Creation", "this is pending");
                     final Button cancel_order = new Button(this);
                     cancel_order.setText("Cancel this order");
@@ -109,7 +110,7 @@ public class History extends AppCompatActivity {
                     });
 
                     layout.addView(cancel_order);
-                }
+
 
 
                 final Button change_order = new Button(this);
