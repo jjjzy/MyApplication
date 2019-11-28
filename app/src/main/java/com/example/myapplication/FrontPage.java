@@ -13,7 +13,6 @@ public class FrontPage extends AppCompatActivity {
     Button b2;
     Button b3;
     Button b4;
-    Button b5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
