@@ -30,7 +30,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        switch2 = (Switch) findViewById(R.id.switch1);
+        switch2 = (Switch) findViewById(R.id.switch2);
         switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -42,7 +42,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        switch3 = (Switch) findViewById(R.id.switch1);
+        switch3 = (Switch) findViewById(R.id.switch3);
         switch3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
