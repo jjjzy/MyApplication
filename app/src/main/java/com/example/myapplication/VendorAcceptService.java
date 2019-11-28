@@ -88,7 +88,7 @@ public class VendorAcceptService extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     popUp.showAtLocation(ll, Gravity.CENTER, 0, 0);
-                    popUp.update(params.WRAP_CONTENT, params.WRAP_CONTENT);
+                    popUp.update(1000, params.WRAP_CONTENT);
                 }
             });
 
