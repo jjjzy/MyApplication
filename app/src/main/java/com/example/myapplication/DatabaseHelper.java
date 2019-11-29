@@ -210,4 +210,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update("orders", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
     }
 
+    public void change_order_time(String new_time, String user_username, String vendor_username, String status, String date){
+        SQLiteDatabase db = this.getReadableDatabase();
+//        db.rawQuery("delete from orders where user_username=? and vendor_username = ? and service = ? and date = ? and total = ? and status = ?",new String[] {user_username, vendor_username, service, date, total, status});
+//        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("date", new_time);
+        String [] args = new String[]{user_username, vendor_username, status, date};
+        db.update("orders", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
+    }
+
 }
