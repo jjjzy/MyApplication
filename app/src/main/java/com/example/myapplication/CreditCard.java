@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -94,6 +95,10 @@ public class CreditCard extends AppCompatActivity {
 //                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
                                 if(cb.isChecked()){
                                     want_to_save_card = true;
+                                    Log.d("Creation", "inside credit card, cb is checked");
+                                }
+                                else{
+                                    Log.d("Creation", "inside credit card, cb is not checked");
                                 }
                                 Intent in = new Intent(CreditCard.this ,Confirmation.class);
                                 startActivity(in);

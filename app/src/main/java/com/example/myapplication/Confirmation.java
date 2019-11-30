@@ -26,6 +26,7 @@ public class Confirmation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
+        Log.d("Creation", "inside confimation");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -35,12 +36,12 @@ public class Confirmation extends AppCompatActivity {
         db = new DatabaseHelper(this);
         confirmation = (TextView) findViewById(R.id.confirmation);
         service_selected = Request_Service_activity.selected_text.toString();
-        Log.d("Creation", "service selected: ");
-        Log.d("Creation", service_selected);
+//        Log.d("Creation", "service selected: ");
+//        Log.d("Creation", service_selected);
 
         user_username = CustomerLogin.s.toString();
-        Log.d("Creation", "user username: ");
-        Log.d("Creation", user_username);
+//        Log.d("Creation", "user username: ");
+//        Log.d("Creation", user_username);
 
         final Cursor cursor = db.return_vendor(service_selected);
         cursor.moveToFirst();
@@ -49,8 +50,8 @@ public class Confirmation extends AppCompatActivity {
         }
 
         vendor_username = cursor.getString(cursor.getColumnIndex("username"));
-        Log.d("Creation", "vendor username selected: ");
-        Log.d("Creation", vendor_username);
+//        Log.d("Creation", "vendor username selected: ");
+//        Log.d("Creation", vendor_username);
 
         confirmation.setText(
                 "Username: " + user_username + "\n" +"\n" +
@@ -75,38 +76,38 @@ public class Confirmation extends AppCompatActivity {
                         date,
                         cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
                         Payment.method);
-                Log.d("Creaation", "submitted");
+                Log.d("Creation", "submitted");
 
                 if (CreditCard.want_to_save_card == true){
-                    Log.d("Creaation", "checked");
-//                    String str = CreditCard.cardNum.getText().toString();
+                    Log.d("Creation", "checked");
+                    String str = CreditCard.cardNum.getText().toString();
 //                    int fullInt = Integer.parseInt(str);
 //                    String first4char = str.substring(0,4);
 //
 ////                    int intForFirst4Char = Integer.parseInt(first4char);
-//                    Log.d("Creation", str.substring(0,4));
-//                    Log.d("Creation", str.substring(4,8));
-//                    Log.d("Creation", str.substring(8,12));
-//                    Log.d("Creation", str.substring(12,16));
-//                    Log.d("Creation", CreditCard.cardHolderName.toString());
-//                    Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
-//                    Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
-//                    Log.d("Creation", CreditCard.cvv.getText().toString());
-//                    Log.d("Creation", CreditCard.zip.getText().toString());
+                    Log.d("Creation", str.substring(0,4));
+                    Log.d("Creation", str.substring(4,8));
+                    Log.d("Creation", str.substring(8,12));
+                    Log.d("Creation", str.substring(12,16));
+                    Log.d("Creation", CreditCard.cardHolderName.getText().toString());
+                    Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
+                    Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
+                    Log.d("Creation", CreditCard.cvv.getText().toString());
+                    Log.d("Creation", CreditCard.zip.getText().toString());
 //
 //
 //
 //
-////                    db.insertCard(CustomerLogin.s.toString(),
-////                            str.substring(0,4),
-////                            str.substring(4,8),
-////                            str.substring(8,12),
-////                            str.substring(12,16),
-////                            CreditCard.cardHolderName.toString(),
-////                            CreditCard.spinnerA.getSelectedItem().toString(),
-////                            CreditCard.spinnerB.getSelectedItem().toString(),
-////                            CreditCard.cvv.getText().toString(),
-////                            CreditCard.zip.getText().toString());
+                    db.insertCard(CustomerLogin.s.toString(),
+                            str.substring(0,4),
+                            str.substring(4,8),
+                            str.substring(8,12),
+                            str.substring(12,16),
+                            CreditCard.cardHolderName.getText().toString(),
+                            CreditCard.spinnerA.getSelectedItem().toString(),
+                            CreditCard.spinnerB.getSelectedItem().toString(),
+                            CreditCard.cvv.getText().toString(),
+                            CreditCard.zip.getText().toString());
                 }
 
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
