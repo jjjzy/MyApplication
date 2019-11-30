@@ -304,7 +304,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void delete_card_info_based_on_username(String Username){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery("delete from prefered_card where username=?", new String[] {Username});
+//        db.rawQuery("delete from prefered_card where username=?", new String[] {Username});
+        db.execSQL("DELETE FROM " + "prefered_card" + " WHERE "+"username"+"='"+Username+"'");
 
     }
 
