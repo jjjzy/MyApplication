@@ -77,29 +77,35 @@ public class CreditCard extends AppCompatActivity {
         use_prefer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cardHolderName.setText(cursor.getString(cursor.getColumnIndex("fullname")));
-                cvv.setText(cursor.getString(cursor.getColumnIndex("cvv")));
-                zip.setText(cursor.getString(cursor.getColumnIndex("zip")));
-                String full_card_num = cursor.getString(cursor.getColumnIndex("first")) +
-                        cursor.getString(cursor.getColumnIndex("second")) +
-                        cursor.getString(cursor.getColumnIndex("third"))+
-                        cursor.getString(cursor.getColumnIndex("fourth"));
-                cardNum.setText(full_card_num);
-
-                ArrayList<String> month_list = new ArrayList<String>();
-                for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
-                    month_list.add(getResources().getStringArray(R.array.months)[i]);
+                if(cursor.getCount()!= 1){
+                    Toast.makeText(getApplicationContext(), "You have no saved card", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    cardHolderName.setText(cursor.getString(cursor.getColumnIndex("fullname")));
+                    cvv.setText(cursor.getString(cursor.getColumnIndex("cvv")));
+                    zip.setText(cursor.getString(cursor.getColumnIndex("zip")));
+                    String full_card_num = cursor.getString(cursor.getColumnIndex("first")) +
+                            cursor.getString(cursor.getColumnIndex("second")) +
+                            cursor.getString(cursor.getColumnIndex("third"))+
+                            cursor.getString(cursor.getColumnIndex("fourth"));
+                    cardNum.setText(full_card_num);
 
-                ArrayList<String> year_list = new ArrayList<String>();
-                for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
-                    month_list.add(getResources().getStringArray(R.array.years)[i]);
+                    ArrayList<String> month_list = new ArrayList<String>();
+                    for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
+                        month_list.add(getResources().getStringArray(R.array.months)[i]);
+                    }
+
+                    ArrayList<String> year_list = new ArrayList<String>();
+                    for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
+                        year_list.add(getResources().getStringArray(R.array.years)[i]);
+                    }
+
+
+
+                    spinnerA.setSelection(month_list.indexOf(cursor.getString(cursor.getColumnIndex("month"))));
+                    spinnerB.setSelection(year_list.indexOf(cursor.getString(cursor.getColumnIndex("year"))));
+
                 }
-
-
-
-                spinnerA.setSelection(month_list.indexOf(cursor.getString(cursor.getColumnIndex("month"))));
-                spinnerB.setSelection(year_list.indexOf(cursor.getString(cursor.getColumnIndex("year"))));
 
             }
         });
