@@ -8,8 +8,8 @@
 
     <ScrollView
         android:id="@+id/sv_view_vendor"
-        android:layout_width="403dp"
-        android:layout_height="656dp"
+        android:layout_width="364dp"
+        android:layout_height="591dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.355"
@@ -20,7 +20,7 @@
         <LinearLayout
             android:id="@+id/ll_view_vendor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical" />
     </ScrollView>
 
