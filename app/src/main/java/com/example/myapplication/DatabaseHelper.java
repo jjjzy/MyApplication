@@ -296,4 +296,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor retrive_card_info_based_on_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from prefered_card where username = ?", new String[] {username});
+        return cursor;
+    }
+
 }
