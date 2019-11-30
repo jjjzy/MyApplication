@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,10 +65,17 @@ public class Confirmation extends AppCompatActivity {
 
         );
 
-
+        final String date = Request_time_total.yearFinal + "/" + Request_time_total.monthFinal + "/" + Request_time_total.dayFinal + "/" + Request_time_total.hourFinal + "/" + Request_time_total.minuteFinal;
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
+                        cursor.getString(cursor.getColumnIndex("username")),
+                        Request_Service_activity.selected_text.toString(),
+                        date,
+                        cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
+                        Payment.method);
+                Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(Confirmation.this,FrontPage.class);
                 startActivity(in);
             }

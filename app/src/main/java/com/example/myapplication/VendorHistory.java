@@ -85,7 +85,8 @@ public class VendorHistory extends AppCompatActivity {
                             "Date: " + change_time_format(cursor.getString(cursor.getColumnIndex("date")))[0] + "\n" +
                             "Time: " + change_time_format(cursor.getString(cursor.getColumnIndex("date")))[1] + "\n" +
                             "Status: " + cursor.getString(cursor.getColumnIndex("status")) + "\n" +
-                            "Price: " + cursor.getString(cursor.getColumnIndex("total"))
+                            "Price: " + cursor.getString(cursor.getColumnIndex("total")) + "\n" +
+                            "Payment Method: " + cursor.getString(cursor.getColumnIndex("payment_method"))
             );
             text_to_be_shown.setMaxLines(1);
             text_to_be_shown.setEllipsize(TextUtils.TruncateAt.END);

@@ -82,7 +82,7 @@ public class CreditCard extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Please enter a valid zip code (5 digits)", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(CreditCard.this ,Confirmation.class);
                                 startActivity(in);
 

@@ -93,9 +93,9 @@ public class Request_time_total extends AppCompatActivity implements
         submit_request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
-                Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")),"Pending");
-                if((insert == true) && (dayFinal != 0) && (hourFinal != 0)){
+//                String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
+//                Boolean insert = db.insertOrder(user_username, vendor_username, service_selected, data_time, cursor.getDouble(cursor.getColumnIndex("price")),"Pending");
+                if((dayFinal != 0) && (hourFinal != 0)){
                     Intent in = new Intent(Request_time_total.this, Payment.class);
                     startActivity(in);
                 }

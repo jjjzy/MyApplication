@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,12);
+        super(context,"Login.db",null,13);
 
     }
 
@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
-        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text)");
         db.execSQL("Create table services(service_category text primary key)");
 //        insertServices();
 //        SQLiteDatabase db = this.getWritableDatabase();
@@ -114,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status){
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status, String method){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_username", user_username);
@@ -123,6 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("date", date);
         contentValues.put("total", total);
         contentValues.put("status", status);
+        contentValues.put("payment_method", method);
         long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false
