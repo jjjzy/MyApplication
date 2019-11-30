@@ -74,6 +74,17 @@ public class CreditCard extends AppCompatActivity {
 
         final Cursor cursor = db.retrive_card_info_based_on_username(CustomerLogin.s.toString());
         cursor.moveToFirst();
+
+        final ArrayList<String> month_list = new ArrayList<String>();
+        for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
+            month_list.add(getResources().getStringArray(R.array.months)[i]);
+        }
+
+        final ArrayList<String> year_list = new ArrayList<String>();
+        for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
+            year_list.add(getResources().getStringArray(R.array.years)[i]);
+        }
+
         use_prefer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,15 +101,15 @@ public class CreditCard extends AppCompatActivity {
                             cursor.getString(cursor.getColumnIndex("fourth"));
                     cardNum.setText(full_card_num);
 
-                    ArrayList<String> month_list = new ArrayList<String>();
-                    for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
-                        month_list.add(getResources().getStringArray(R.array.months)[i]);
-                    }
-
-                    ArrayList<String> year_list = new ArrayList<String>();
-                    for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
-                        year_list.add(getResources().getStringArray(R.array.years)[i]);
-                    }
+//                    ArrayList<String> month_list = new ArrayList<String>();
+//                    for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
+//                        month_list.add(getResources().getStringArray(R.array.months)[i]);
+//                    }
+//
+//                    ArrayList<String> year_list = new ArrayList<String>();
+//                    for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
+//                        year_list.add(getResources().getStringArray(R.array.years)[i]);
+//                    }
 
 
 

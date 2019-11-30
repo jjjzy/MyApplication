@@ -81,35 +81,53 @@ public class Confirmation extends AppCompatActivity {
                 Log.d("Creation", "submitted");
 
                 if (CreditCard.want_to_save_card == true){
-                    Log.d("Creation", "checked");
-                    String str = CreditCard.cardNum.getText().toString();
+                    if(db.retrive_card_info_based_on_username(CustomerLogin.s.toString()).getCount() == 0){
+                        Log.d("Creation", "checked");
+                        String str = CreditCard.cardNum.getText().toString();
 //                    int fullInt = Integer.parseInt(str);
 //                    String first4char = str.substring(0,4);
 //
 ////                    int intForFirst4Char = Integer.parseInt(first4char);
-                    Log.d("Creation", str.substring(0,4));
-                    Log.d("Creation", str.substring(4,8));
-                    Log.d("Creation", str.substring(8,12));
-                    Log.d("Creation", str.substring(12,16));
-                    Log.d("Creation", CreditCard.cardHolderName.getText().toString());
-                    Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
-                    Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
-                    Log.d("Creation", CreditCard.cvv.getText().toString());
-                    Log.d("Creation", CreditCard.zip.getText().toString());
+                        Log.d("Creation", str.substring(0,4));
+                        Log.d("Creation", str.substring(4,8));
+                        Log.d("Creation", str.substring(8,12));
+                        Log.d("Creation", str.substring(12,16));
+                        Log.d("Creation", CreditCard.cardHolderName.getText().toString());
+                        Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
+                        Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
+                        Log.d("Creation", CreditCard.cvv.getText().toString());
+                        Log.d("Creation", CreditCard.zip.getText().toString());
 //
 //
 //
 //
-                    db.insertCard(CustomerLogin.s.toString(),
-                            str.substring(0,4),
-                            str.substring(4,8),
-                            str.substring(8,12),
-                            str.substring(12,16),
-                            CreditCard.cardHolderName.getText().toString(),
-                            CreditCard.spinnerA.getSelectedItem().toString(),
-                            CreditCard.spinnerB.getSelectedItem().toString(),
-                            CreditCard.cvv.getText().toString(),
-                            CreditCard.zip.getText().toString());
+                        db.insertCard(CustomerLogin.s.toString(),
+                                str.substring(0,4),
+                                str.substring(4,8),
+                                str.substring(8,12),
+                                str.substring(12,16),
+                                CreditCard.cardHolderName.getText().toString(),
+                                CreditCard.spinnerA.getSelectedItem().toString(),
+                                CreditCard.spinnerB.getSelectedItem().toString(),
+                                CreditCard.cvv.getText().toString(),
+                                CreditCard.zip.getText().toString());
+                    }
+                    else{
+                        Log.d("Creation", "there are card stored");
+                        db.delete_card_info_based_on_username(CustomerLogin.s.toString());
+                        String str = CreditCard.cardNum.getText().toString();
+                        db.insertCard(CustomerLogin.s.toString(),
+                                str.substring(0,4),
+                                str.substring(4,8),
+                                str.substring(8,12),
+                                str.substring(12,16),
+                                CreditCard.cardHolderName.getText().toString(),
+                                CreditCard.spinnerA.getSelectedItem().toString(),
+                                CreditCard.spinnerB.getSelectedItem().toString(),
+                                CreditCard.cvv.getText().toString(),
+                                CreditCard.zip.getText().toString());
+                    }
+
                 }
 
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
