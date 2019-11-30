@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class View_vendors extends AppCompatActivity {
+
+
 
     DatabaseHelper db;
     CharSequence selected_text;
@@ -35,6 +39,8 @@ public class View_vendors extends AppCompatActivity {
     public static int index;
 
     ScrollView sv;
+
+    SearchView search;
 
 //    PopupWindow popUp;
 //    LinearLayout layout;
@@ -92,8 +98,9 @@ public class View_vendors extends AppCompatActivity {
             final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            Button btn = new Button(this);
+            final Button btn = new Button(this);
             btn.setWidth(5);
+//            btn.gette
 //            btn.setId(i);
             btn.setText(cursor.getString(cursor.getColumnIndex("company")));
 
@@ -167,6 +174,7 @@ public class View_vendors extends AppCompatActivity {
 //                        popUp.show
                     popUp.update(1000, params.WRAP_CONTENT);
 //                    popup.upd
+//                    btn.setVisibility(View.INVISIBLE);
 
                 }
             });
@@ -175,6 +183,46 @@ public class View_vendors extends AppCompatActivity {
 //
 //            sv.addView(ll);
             ll.addView(btn);
+
+            search = (SearchView) findViewById(R.id.search_vendors);
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+//                    for(int i = 0; i < ll.getChildCount(); i++){
+//                        Button temp = (Button)ll.getChildAt(i);
+//                        temp.setVisibility(View.VISIBLE);
+//                        if(!temp.getText().toString().contains(query)){
+//                            temp.setVisibility(View.GONE);
+//                        }
+//                    }
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    for(int i = 0; i < ll.getChildCount(); i++){
+                        Button temp = (Button)ll.getChildAt(i);
+                        temp.setVisibility(View.VISIBLE);
+                        if(!temp.getText().toString().contains(newText)){
+                            temp.setVisibility(View.GONE);
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            search.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    for(int i = 0; i < ll.getChildCount(); i++){
+                        Button temp = (Button)ll.getChildAt(i);
+//                        if(temp.getText().equals("penny")){
+//                            temp.setVisibility(View.INVISIBLE);
+//                        }
+                        temp.setVisibility(View.VISIBLE);
+                    }
+                    return false;
+                }
+            });
         }
     }
 

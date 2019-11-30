@@ -1,24 +1,34 @@
 package com.example.myapplication;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStructure;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class History extends AppCompatActivity {
+import java.util.Calendar;
+
+public class History extends AppCompatActivity implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     LinearLayout ll;
     DatabaseHelper db;
@@ -27,12 +37,12 @@ public class History extends AppCompatActivity {
     int position;
     int position2;
 
-//    int day, month, year, hour, minute;
-//    int dayFinal = 0;
-//    int monthFinal = 0;
-//    int yearFinal = 0;
-//    int hourFinal = 0;
-//    int minuteFinal = 0;
+    int day, month, year, hour, minute;
+    int dayFinal = 0;
+    int monthFinal = 0;
+    int yearFinal = 0;
+    int hourFinal = 0;
+    int minuteFinal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +93,8 @@ public class History extends AppCompatActivity {
                             "Date: " + change_time_format(cursor.getString(cursor.getColumnIndex("date")))[0] + "\n" +
                             "Time: " + change_time_format(cursor.getString(cursor.getColumnIndex("date")))[1] + "\n" +
                             "Status: " + cursor.getString(cursor.getColumnIndex("status")) + "\n" +
-                            "Price: " + cursor.getString(cursor.getColumnIndex("total"))
+                            "Price: " + cursor.getString(cursor.getColumnIndex("total")) + "\n" +
+                            "Payment Method: " + cursor.getString(cursor.getColumnIndex("payment_method"))
             );
             text_to_be_shown.setMaxLines(1);
             text_to_be_shown.setEllipsize(TextUtils.TruncateAt.END);
@@ -111,9 +122,11 @@ public class History extends AppCompatActivity {
                                 cursor2.moveToNext();
                             }
 
-                            db.change_status_to_cancel("Cancel", cursor2.getString(cursor.getColumnIndex("user_username")),
+                            db.change_status_to_cancel("Cancel", cursor2.getString(cursor2.getColumnIndex("user_username")),
                                     cursor2.getString(cursor2.getColumnIndex("vendor_username")),
                                     cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+
+                            startActivity(new Intent(History.this, History.class));
                         }
                     });
 
@@ -127,11 +140,18 @@ public class History extends AppCompatActivity {
                 change_order.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        position = change_order.getId();
+                        position = change_order.getId();
 //                        cursor2.moveToFirst();
 //                        for(int i = 0; i < position; i++){
 //                            cursor2.moveToNext();
 //                        }
+                        Calendar calendar = Calendar.getInstance();
+                        year = calendar.get(Calendar.YEAR);
+                        month = calendar.get(Calendar.MONTH);
+                        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(History.this, History.this, year, month, day);
+                        datePickerDialog.show();
                     }
                 });
 
@@ -185,4 +205,36 @@ public class History extends AppCompatActivity {
     }
 
 
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        yearFinal = year;
+        monthFinal = month + 1;
+        dayFinal = dayOfMonth;
+
+        Calendar calendar = Calendar.getInstance();
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(History.this, History.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        hourFinal = hourOfDay;
+        minuteFinal = minute;
+        String data_time = yearFinal + "/" + monthFinal + "/" + dayFinal + "/" + hourFinal + "/" + minuteFinal;
+        final Cursor cursor3 = db.retrive_order_hist_basedon_username(current_user_username);
+        cursor3.moveToFirst();
+        for(int i = 0; i < position; i++){
+            cursor3.moveToNext();
+        }
+        db.change_order_time(data_time, cursor3.getString(cursor3.getColumnIndex("user_username")),
+                cursor3.getString(cursor3.getColumnIndex("vendor_username")),
+                cursor3.getString(cursor3.getColumnIndex("status")), cursor3.getString(cursor3.getColumnIndex("date")));
+
+        startActivity(new Intent(History.this, History.class));
+
+    }
 }

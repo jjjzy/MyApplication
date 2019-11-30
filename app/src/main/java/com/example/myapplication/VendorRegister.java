@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class VendorRegister extends AppCompatActivity {
 
@@ -26,13 +30,26 @@ public class VendorRegister extends AppCompatActivity {
     EditText email;
     EditText price;
 
+//    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_register);
+
+        db = new DatabaseHelper(this);
+
+        Cursor cursor = db.retrive_all_service_caterogies();
+
+        ArrayList<String> service_list = new ArrayList<String>();
+
+        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+            service_list.add(cursor.getString(cursor.getColumnIndex("service_category")));
+        }
+
+
         services = (Spinner) findViewById(R.id.services);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(VendorRegister.this, android.R.layout.simple_list_item_single_choice, getResources().getStringArray(R.array.names));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(VendorRegister.this, android.R.layout.simple_list_item_single_choice, service_list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         services.setAdapter(adapter);
 
@@ -43,7 +60,7 @@ public class VendorRegister extends AppCompatActivity {
         vendorPsw = (EditText) findViewById(R.id.vendorPsw);
         vendorPsw2 = (EditText) findViewById(R.id.vendorPsw2);
         register = (Button) findViewById(R.id.vendorRegister);
-        db = new DatabaseHelper(this);
+
         answer = (EditText) findViewById(R.id.answer3);
         email = (EditText) findViewById(R.id.email);
         price = (EditText) findViewById(R.id.price);

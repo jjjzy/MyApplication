@@ -1,12 +1,15 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,15 +17,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class CreditCard extends AppCompatActivity {
 
-    EditText cardNum;
-    EditText cardHolderName;
-    Spinner spinnerA;
-    Spinner spinnerB;
-    EditText cvv;
-    EditText zip;
+    public static EditText cardNum;
+    public static EditText cardHolderName;
+    public static Spinner spinnerA;
+    public static Spinner spinnerB;
+    public static EditText cvv;
+    public static EditText zip;
     Button pay;
+
+    CheckBox cb;
+    public static boolean want_to_save_card;
+
+    Button use_prefer;
+
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +45,20 @@ public class CreditCard extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        db = new DatabaseHelper(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        cb = (CheckBox) findViewById(R.id.checkBox);
+        use_prefer = (Button) findViewById(R.id.button2);
+//        if(cb.isChecked()){
+//            want_to_save_card = true;
+//        }
+//        use_prefer = (Button) findViewById(R.id.user_prefer);
 
         cardNum = (EditText) findViewById(R.id.cardNum);
         cardHolderName = (EditText) findViewById(R.id.holderName);
@@ -47,9 +73,41 @@ public class CreditCard extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerA.setAdapter(adapter);
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(CreditCard.this, android.R.layout.simple_list_item_single_choice, getResources().getStringArray(R.array.years));
+        final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(CreditCard.this, android.R.layout.simple_list_item_single_choice, getResources().getStringArray(R.array.years));
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerB.setAdapter(adapter2);
+
+        final Cursor cursor = db.retrive_card_info_based_on_username(CustomerLogin.s.toString());
+        cursor.moveToFirst();
+        use_prefer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardHolderName.setText(cursor.getString(cursor.getColumnIndex("fullname")));
+                cvv.setText(cursor.getString(cursor.getColumnIndex("cvv")));
+                zip.setText(cursor.getString(cursor.getColumnIndex("zip")));
+                String full_card_num = cursor.getString(cursor.getColumnIndex("first")) +
+                        cursor.getString(cursor.getColumnIndex("second")) +
+                        cursor.getString(cursor.getColumnIndex("third"))+
+                        cursor.getString(cursor.getColumnIndex("fourth"));
+                cardNum.setText(full_card_num);
+
+                ArrayList<String> month_list = new ArrayList<String>();
+                for(int i = 0; i < getResources().getStringArray(R.array.months).length; i++){
+                    month_list.add(getResources().getStringArray(R.array.months)[i]);
+                }
+
+                ArrayList<String> year_list = new ArrayList<String>();
+                for(int i = 0; i < getResources().getStringArray(R.array.years).length; i++){
+                    month_list.add(getResources().getStringArray(R.array.years)[i]);
+                }
+
+
+
+                spinnerA.setSelection(month_list.indexOf(cursor.getString(cursor.getColumnIndex("month"))));
+                spinnerB.setSelection(year_list.indexOf(cursor.getString(cursor.getColumnIndex("year"))));
+
+            }
+        });
 
 
         pay.setOnClickListener(new View.OnClickListener(){
@@ -84,7 +142,18 @@ public class CreditCard extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Please enter a valid zip code (5 digits)", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
+                                if(cb.isChecked()){
+                                    want_to_save_card = true;
+//                                    Log.d("Creation", "inside credit card, cb is checked");
+                                }
+                                else{
+//                                    Log.d("Creation", "inside credit card, cb is not checked");
+                                }
+
+
+
+
                                 Intent in = new Intent(CreditCard.this ,Confirmation.class);
                                 startActivity(in);
 

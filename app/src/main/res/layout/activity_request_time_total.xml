@@ -36,7 +36,7 @@
         android:id="@+id/submit_request"
         android:layout_width="170dp"
         android:layout_height="60dp"
-        android:text="submit your request"
+        android:text="Proceed to payment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

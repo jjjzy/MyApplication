@@ -19,18 +19,18 @@
 
 
     <string-array name="months">
-        <item>JAN 01</item>
-        <item>FEB 02</item>
-        <item>MAR 03</item>
-        <item>APR 04</item>
-        <item>MAY 05</item>
-        <item>JUN 06</item>
-        <item>JUL 07</item>
-        <item>AUG 08</item>
-        <item>SEP 09</item>
-        <item>OCT 10</item>
-        <item>NOV 11</item>
-        <item>DEC 12</item>
+        <item>JAN</item>
+        <item>FEB</item>
+        <item>MAR</item>
+        <item>APR</item>
+        <item>MAY</item>
+        <item>JUN</item>
+        <item>JUL</item>
+        <item>AUG</item>
+        <item>SEP</item>
+        <item>OCT</item>
+        <item>NOV</item>
+        <item>DEC</item>
     </string-array>
 
     <string-array name="years">
