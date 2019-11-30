@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,13 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CreditCard extends AppCompatActivity {
 
-    EditText cardNum;
-    EditText cardHolderName;
-    Spinner spinnerA;
-    Spinner spinnerB;
-    EditText cvv;
-    EditText zip;
+    public static EditText cardNum;
+    public static EditText cardHolderName;
+    public static Spinner spinnerA;
+    public static Spinner spinnerB;
+    public static EditText cvv;
+    public static EditText zip;
     Button pay;
+
+    public static CheckBox cb;
+    public static boolean want_to_save_card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,11 @@ public class CreditCard extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        cb = (CheckBox) findViewById(R.id.checkBox);
+//        if(cb.isChecked()){
+//            want_to_save_card = true;
+//        }
 
         cardNum = (EditText) findViewById(R.id.cardNum);
         cardHolderName = (EditText) findViewById(R.id.holderName);
@@ -83,6 +92,9 @@ public class CreditCard extends AppCompatActivity {
                             }
                             else {
 //                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
+                                if(cb.isChecked()){
+                                    want_to_save_card = true;
+                                }
                                 Intent in = new Intent(CreditCard.this ,Confirmation.class);
                                 startActivity(in);
 

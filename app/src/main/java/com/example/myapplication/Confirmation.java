@@ -75,6 +75,40 @@ public class Confirmation extends AppCompatActivity {
                         date,
                         cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
                         Payment.method);
+                Log.d("Creaation", "submitted");
+
+                if (CreditCard.want_to_save_card == true){
+                    Log.d("Creaation", "checked");
+//                    String str = CreditCard.cardNum.getText().toString();
+//                    int fullInt = Integer.parseInt(str);
+//                    String first4char = str.substring(0,4);
+//
+////                    int intForFirst4Char = Integer.parseInt(first4char);
+//                    Log.d("Creation", str.substring(0,4));
+//                    Log.d("Creation", str.substring(4,8));
+//                    Log.d("Creation", str.substring(8,12));
+//                    Log.d("Creation", str.substring(12,16));
+//                    Log.d("Creation", CreditCard.cardHolderName.toString());
+//                    Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
+//                    Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
+//                    Log.d("Creation", CreditCard.cvv.getText().toString());
+//                    Log.d("Creation", CreditCard.zip.getText().toString());
+//
+//
+//
+//
+////                    db.insertCard(CustomerLogin.s.toString(),
+////                            str.substring(0,4),
+////                            str.substring(4,8),
+////                            str.substring(8,12),
+////                            str.substring(12,16),
+////                            CreditCard.cardHolderName.toString(),
+////                            CreditCard.spinnerA.getSelectedItem().toString(),
+////                            CreditCard.spinnerB.getSelectedItem().toString(),
+////                            CreditCard.cvv.getText().toString(),
+////                            CreditCard.zip.getText().toString());
+                }
+
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(Confirmation.this,FrontPage.class);
                 startActivity(in);

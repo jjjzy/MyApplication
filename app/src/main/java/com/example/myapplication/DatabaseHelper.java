@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,13);
+        super(context,"Login.db",null,14);
 
     }
 
@@ -20,18 +20,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
         db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text)");
         db.execSQL("Create table services(service_category text primary key)");
-//        insertServices();
-//        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("Create table prefered_card(username text primary key, first text, second text, third text, fourth text, fullname text, month text, year text, cvv text, zip text)");
+
         ContentValues contentValues = new ContentValues();
-////        <item>Appliances</item>
-////        <item>Electrical</item>
-////        <item>Plumbing</item>
-////        <item>Home Cleaning</item>
-////        <item>Tutoring</item>
-////        <item>Packaging and Moving</item>
-////        <item>Computer Repair</item>
-////        <item>Home Repair and Painting</item>
-////        <item>Pest Control</item>
+
         contentValues.put("service_category", "Appliances");
         db.insert("services", null, contentValues);
         contentValues.put("service_category", "Electrical");
@@ -48,16 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("services", null, contentValues);
         contentValues.put("service_category", "Pest Control");
         db.insert("services", null, contentValues);
-
-//        db.execSQL("insert into services (service_category) values (Appliances)");
-//        db.execSQL("insert into services (service_category) values (Electrical)");
-//        db.execSQL("insert into services (service_category) values (Plumbing)");
-//        db.execSQL("insert into services (service_category) values (Home_Cleaning)");
-//        db.execSQL("insert into services (service_category) values (Packaging_and_Moving)");
-//        db.execSQL("insert into services (service_category) values (Computer_Repair)");
-//        db.execSQL("insert into services (service_category) values (Home_Repair_and_Painting)");
-//        db.execSQL("insert into services (service_category) values (Pest_Control)");
-
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
@@ -66,6 +48,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists orders");
         db.execSQL("drop table if exists services");
         onCreate(db);
+    }
+
+    public boolean insertCard(String username, String first, String second, String third, String fourth, String fullname, String month, String year, String cvv, String zip) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("first", first);
+        contentValues.put("second", second);
+        contentValues.put("third", third);
+        contentValues.put("fourth", fourth);
+        contentValues.put("fullname", fullname);
+        contentValues.put("month", month);
+        contentValues.put("year", year);
+        contentValues.put("cvv", cvv);
+        contentValues.put("zip", zip);
+        long ins = db.insert("prefered_card", null, contentValues);
+
+        if (ins == -1) return false;   //if the query does not work return false
+        else return true;
     }
 
     public boolean insertServices(){
