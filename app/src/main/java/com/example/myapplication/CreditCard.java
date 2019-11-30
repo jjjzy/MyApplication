@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,10 +47,6 @@ public class CreditCard extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         cb = (CheckBox) findViewById(R.id.checkBox);
         use_prefer = (Button) findViewById(R.id.button2);
