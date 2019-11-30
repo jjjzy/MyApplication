@@ -30,6 +30,11 @@ public class VendorHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_history);
 
+    //        ActionBar actionBar = getSupportActionBar();
+    //        if (actionBar != null) {
+    //            actionBar.setDisplayHomeAsUpEnabled(true);
+    //        }
+
        /* getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

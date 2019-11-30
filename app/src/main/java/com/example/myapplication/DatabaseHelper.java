@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,6);
+        super(context,"Login.db",null,12);
 
     }
 
@@ -19,13 +19,81 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
         db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text)");
+        db.execSQL("Create table services(service_category text primary key)");
+//        insertServices();
+//        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+////        <item>Appliances</item>
+////        <item>Electrical</item>
+////        <item>Plumbing</item>
+////        <item>Home Cleaning</item>
+////        <item>Tutoring</item>
+////        <item>Packaging and Moving</item>
+////        <item>Computer Repair</item>
+////        <item>Home Repair and Painting</item>
+////        <item>Pest Control</item>
+        contentValues.put("service_category", "Appliances");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Electrical");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Plumbing");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Home Cleaning");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Packaging and Moving");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Computer Repair");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Home Repair and Painting");
+        db.insert("services", null, contentValues);
+        contentValues.put("service_category", "Pest Control");
+        db.insert("services", null, contentValues);
+
+//        db.execSQL("insert into services (service_category) values (Appliances)");
+//        db.execSQL("insert into services (service_category) values (Electrical)");
+//        db.execSQL("insert into services (service_category) values (Plumbing)");
+//        db.execSQL("insert into services (service_category) values (Home_Cleaning)");
+//        db.execSQL("insert into services (service_category) values (Packaging_and_Moving)");
+//        db.execSQL("insert into services (service_category) values (Computer_Repair)");
+//        db.execSQL("insert into services (service_category) values (Home_Repair_and_Painting)");
+//        db.execSQL("insert into services (service_category) values (Pest_Control)");
+
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion,int newVersion){
         db.execSQL("drop table if exists user");
         db.execSQL("drop table if exists vendor");
         db.execSQL("drop table if exists orders");
+        db.execSQL("drop table if exists services");
         onCreate(db);
+    }
+
+    public boolean insertServices(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+//        <item>Appliances</item>
+//        <item>Electrical</item>
+//        <item>Plumbing</item>
+//        <item>Home Cleaning</item>
+//        <item>Tutoring</item>
+//        <item>Packaging and Moving</item>
+//        <item>Computer Repair</item>
+//        <item>Home Repair and Painting</item>
+//        <item>Pest Control</item>
+        contentValues.put("service_category", "Appliances");
+        contentValues.put("service_category", "Electrical");
+        contentValues.put("service_category", "Plumbing");
+        contentValues.put("service_category", "Home Cleaning");
+        contentValues.put("service_category", "Packaging and Moving");
+        contentValues.put("service_category", "Computer Repair");
+        contentValues.put("service_category", "Home Repair and Painting");
+        contentValues.put("service_category", "Pest Control");
+
+        long ins = db.insert("services", null, contentValues);
+
+        if (ins == -1) return false;   //if the query does not work return false
+        else return true;
+
     }
 
     //insert username and password to the database
@@ -218,6 +286,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("date", new_time);
         String [] args = new String[]{user_username, vendor_username, status, date};
         db.update("orders", cv,"user_username=? and vendor_username=? and status=? and date=?",args);
+    }
+
+    public Cursor retrive_all_service_caterogies(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from services",new String[] {});
+        return cursor;
     }
 
 }

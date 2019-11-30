@@ -12,6 +12,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewStructure;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -115,6 +116,8 @@ public class History extends AppCompatActivity implements
                             db.change_status_to_cancel("Cancel", cursor2.getString(cursor2.getColumnIndex("user_username")),
                                     cursor2.getString(cursor2.getColumnIndex("vendor_username")),
                                     cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
+
+                            startActivity(new Intent(History.this, History.class));
                         }
                     });
 
