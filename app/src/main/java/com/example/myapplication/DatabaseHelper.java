@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,16);
+        super(context,"Login.db",null,17);
 
     }
 
@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text, points text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
-        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text, order_number text)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text, order_number text, amount_paid double)");
         db.execSQL("Create table services(service_category text primary key)");
         db.execSQL("Create table prefered_card(username text primary key, first text, second text, third text, fourth text, fullname text, month text, year text, cvv text, zip text)");
 
@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status, String method, String order_number){
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status, String method, String order_number, double amount_paid){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_username", user_username);
@@ -128,6 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("status", status);
         contentValues.put("payment_method", method);
         contentValues.put("order_number", order_number);
+        contentValues.put("amount_paid", amount_paid);
         long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false

@@ -94,7 +94,9 @@ public class History extends AppCompatActivity implements
                             "Time: " + change_time_format(cursor.getString(cursor.getColumnIndex("date")))[1] + "\n" +
                             "Status: " + cursor.getString(cursor.getColumnIndex("status")) + "\n" +
                             "Price: " + cursor.getString(cursor.getColumnIndex("total")) + "\n" +
-                            "Payment Method: " + cursor.getString(cursor.getColumnIndex("payment_method"))
+                            "Payment Method: " + cursor.getString(cursor.getColumnIndex("payment_method")) + "\n" +
+                            "Order number: " + cursor.getString(cursor.getColumnIndex("order_number")) + "\n" +
+                            "Amount paid: " + cursor.getString(cursor.getColumnIndex("amount_paid"))
             );
             text_to_be_shown.setMaxLines(1);
             text_to_be_shown.setEllipsize(TextUtils.TruncateAt.END);

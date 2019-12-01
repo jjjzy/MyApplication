@@ -63,7 +63,7 @@ public class Confirmation extends AppCompatActivity {
 //        Log.d("Creation", vendor_username);
 
         double before_points = Double.valueOf(Integer.parseInt(cursor.getString(cursor.getColumnIndex("price"))));
-        double amount_after_points = before_points -
+        final double amount_after_points = before_points -
                 Double.valueOf(Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString()))) / 100;
 
         if(Payment.method.equals("Cash") ){
@@ -155,73 +155,106 @@ public class Confirmation extends AppCompatActivity {
 
 
 //                today.setToNow();
-                Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
-                        cursor.getString(cursor.getColumnIndex("username")),
-                        Request_Service_activity.selected_text.toString(),
-                        date,
-                        cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
-                        Payment.method,
-                        cur_time);
+//                Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
+//                        cursor.getString(cursor.getColumnIndex("username")),
+//                        Request_Service_activity.selected_text.toString(),
+//                        date,
+//                        cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
+//                        Payment.method,
+//                        cur_time);
                 Log.d("Creation", "submitted");
 
-                if (CreditCard.want_to_save_card == true){
-                    if(db.retrive_card_info_based_on_username(CustomerLogin.s.toString()).getCount() == 0){
-                        Log.d("Creation", "checked");
-                        String str = CreditCard.cardNum.getText().toString();
+                if(Payment.method.equals("CreditCard")){
+                    if (CreditCard.want_to_save_card == true){
+                        if(db.retrive_card_info_based_on_username(CustomerLogin.s.toString()).getCount() == 0){
+                            Log.d("Creation", "checked");
+                            String str = CreditCard.cardNum.getText().toString();
 //                    int fullInt = Integer.parseInt(str);
 //                    String first4char = str.substring(0,4);
 //
 ////                    int intForFirst4Char = Integer.parseInt(first4char);
-                        Log.d("Creation", str.substring(0,4));
-                        Log.d("Creation", str.substring(4,8));
-                        Log.d("Creation", str.substring(8,12));
-                        Log.d("Creation", str.substring(12,16));
-                        Log.d("Creation", CreditCard.cardHolderName.getText().toString());
-                        Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
-                        Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
-                        Log.d("Creation", CreditCard.cvv.getText().toString());
-                        Log.d("Creation", CreditCard.zip.getText().toString());
+                            Log.d("Creation", str.substring(0,4));
+                            Log.d("Creation", str.substring(4,8));
+                            Log.d("Creation", str.substring(8,12));
+                            Log.d("Creation", str.substring(12,16));
+                            Log.d("Creation", CreditCard.cardHolderName.getText().toString());
+                            Log.d("Creation", CreditCard.spinnerA.getSelectedItem().toString());
+                            Log.d("Creation", CreditCard.spinnerB.getSelectedItem().toString());
+                            Log.d("Creation", CreditCard.cvv.getText().toString());
+                            Log.d("Creation", CreditCard.zip.getText().toString());
 //
 //
 //
 //
-                        db.insertCard(CustomerLogin.s.toString(),
-                                str.substring(0,4),
-                                str.substring(4,8),
-                                str.substring(8,12),
-                                str.substring(12,16),
-                                CreditCard.cardHolderName.getText().toString(),
-                                CreditCard.spinnerA.getSelectedItem().toString(),
-                                CreditCard.spinnerB.getSelectedItem().toString(),
-                                CreditCard.cvv.getText().toString(),
-                                CreditCard.zip.getText().toString());
-                    }
-                    else{
-                        Log.d("Creation", "there are card stored");
-                        db.delete_card_info_based_on_username(CustomerLogin.s.toString());
-                        String str = CreditCard.cardNum.getText().toString();
-                        db.insertCard(CustomerLogin.s.toString(),
-                                str.substring(0,4),
-                                str.substring(4,8),
-                                str.substring(8,12),
-                                str.substring(12,16),
-                                CreditCard.cardHolderName.getText().toString(),
-                                CreditCard.spinnerA.getSelectedItem().toString(),
-                                CreditCard.spinnerB.getSelectedItem().toString(),
-                                CreditCard.cvv.getText().toString(),
-                                CreditCard.zip.getText().toString());
+                            db.insertCard(CustomerLogin.s.toString(),
+                                    str.substring(0,4),
+                                    str.substring(4,8),
+                                    str.substring(8,12),
+                                    str.substring(12,16),
+                                    CreditCard.cardHolderName.getText().toString(),
+                                    CreditCard.spinnerA.getSelectedItem().toString(),
+                                    CreditCard.spinnerB.getSelectedItem().toString(),
+                                    CreditCard.cvv.getText().toString(),
+                                    CreditCard.zip.getText().toString());
+                        }
+                        else{
+                            Log.d("Creation", "there are card stored");
+                            db.delete_card_info_based_on_username(CustomerLogin.s.toString());
+                            String str = CreditCard.cardNum.getText().toString();
+                            db.insertCard(CustomerLogin.s.toString(),
+                                    str.substring(0,4),
+                                    str.substring(4,8),
+                                    str.substring(8,12),
+                                    str.substring(12,16),
+                                    CreditCard.cardHolderName.getText().toString(),
+                                    CreditCard.spinnerA.getSelectedItem().toString(),
+                                    CreditCard.spinnerB.getSelectedItem().toString(),
+                                    CreditCard.cvv.getText().toString(),
+                                    CreditCard.zip.getText().toString());
+                        }
+
                     }
 
+                    if(CreditCard.want_to_use_points == true){
+                        db.update_points(CustomerLogin.s.toString(), cursor.getString(cursor.getColumnIndex("price")));
+
+                        Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
+                                cursor.getString(cursor.getColumnIndex("username")),
+                                Request_Service_activity.selected_text.toString(),
+                                date,
+                                cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
+                                Payment.method,
+                                cur_time,
+                                amount_after_points);
+                    }
+                    if(CreditCard.want_to_use_points == false){
+                        int cur_points = Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString())) + Integer.parseInt(cursor.getString(cursor.getColumnIndex("price")));
+                        String _cur_points = Integer.toString(cur_points);
+                        db.update_points(CustomerLogin.s.toString(), _cur_points);
+
+                        Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
+                                cursor.getString(cursor.getColumnIndex("username")),
+                                Request_Service_activity.selected_text.toString(),
+                                date,
+                                cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
+                                Payment.method,
+                                cur_time,
+                                cursor.getDouble(cursor.getColumnIndex("price")));
+                    }
                 }
 
-                if(CreditCard.want_to_use_points == true){
-                    db.update_points(CustomerLogin.s.toString(), cursor.getString(cursor.getColumnIndex("price")));
+                if(Payment.method.equals("Cash")){
+                    Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
+                            cursor.getString(cursor.getColumnIndex("username")),
+                            Request_Service_activity.selected_text.toString(),
+                            date,
+                            cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
+                            Payment.method,
+                            cur_time,
+                            cursor.getDouble(cursor.getColumnIndex("price")));
                 }
-                if(CreditCard.want_to_use_points == false){
-                    int cur_points = Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString())) + Integer.parseInt(cursor.getString(cursor.getColumnIndex("price")));
-                    String _cur_points = Integer.toString(cur_points);
-                    db.update_points(CustomerLogin.s.toString(), _cur_points);
-                }
+
+
 
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(Confirmation.this,FrontPage.class);
