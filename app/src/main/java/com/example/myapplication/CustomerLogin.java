@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +45,7 @@ public class CustomerLogin extends AppCompatActivity {
             public void onClick(View view){
                 Intent in = new Intent(CustomerLogin.this,UserRegister.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -50,6 +53,7 @@ public class CustomerLogin extends AppCompatActivity {
             public void onClick(View view){
                 Intent in = new Intent(CustomerLogin.this,ResetPassword.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -63,11 +67,27 @@ public class CustomerLogin extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Successfully Login", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(CustomerLogin.this,FrontPage.class);
                     startActivity(in);
-
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else Toast.makeText(getApplicationContext(), "Wrong username/password",Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+       /* switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);*/
+        Intent myIntent = new Intent(getApplicationContext(), VendorFrontPage.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }

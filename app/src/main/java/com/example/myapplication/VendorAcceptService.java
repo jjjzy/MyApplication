@@ -115,6 +115,7 @@ public class VendorAcceptService extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Service accepted", Toast.LENGTH_SHORT).show();
                     Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
                     startActivity(reload);
+                    overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_up);
 
                 }
             });
@@ -135,6 +136,7 @@ public class VendorAcceptService extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Service rejected", Toast.LENGTH_SHORT).show();
                     Intent reload = new Intent(VendorAcceptService.this, VendorAcceptService.class);
                     startActivity(reload);
+                    overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_up);
 
                 }
             });
@@ -166,6 +168,7 @@ public class VendorAcceptService extends AppCompatActivity {
         return super.onOptionsItemSelected(item);*/
         Intent myIntent = new Intent(getApplicationContext(), VendorFrontPage.class);
         startActivityForResult(myIntent, 0);
+        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_up);
         return true;
     }
 
@@ -173,4 +176,9 @@ public class VendorAcceptService extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_bottom);
+    }
 }

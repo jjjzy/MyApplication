@@ -65,6 +65,7 @@ public class VendorReset extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Password successfully changed",Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(VendorReset.this ,VendorLogin.class);
                                 startActivity(in);
+                                overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_up);
                             }
                             else Toast.makeText(getApplicationContext(),"Maiden Last name/Username not corect",Toast.LENGTH_SHORT).show();
                         }
@@ -91,5 +92,11 @@ public class VendorReset extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_bottom);
     }
 }

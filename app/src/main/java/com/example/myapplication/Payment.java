@@ -54,6 +54,7 @@ public class Payment extends AppCompatActivity {
 //                        method);
                 Intent in = new Intent(Payment.this,Confirmation.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -62,6 +63,7 @@ public class Payment extends AppCompatActivity {
                 method = (String)card.getText();
                 Intent in = new Intent(Payment.this,CreditCard.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
@@ -77,5 +79,11 @@ public class Payment extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

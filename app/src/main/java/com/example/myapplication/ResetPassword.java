@@ -65,6 +65,7 @@ public class ResetPassword extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Password successfully changed",Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(ResetPassword.this ,CustomerLogin.class);
                                 startActivity(in);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             }
                             else Toast.makeText(getApplicationContext(),"Maiden Last name/Username not corect",Toast.LENGTH_SHORT).show();
                         }
@@ -89,5 +90,11 @@ public class ResetPassword extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

@@ -129,6 +129,7 @@ public class History extends AppCompatActivity implements
                                     cursor2.getString(cursor2.getColumnIndex("status")), cursor2.getString(cursor2.getColumnIndex("date")));
 
                             startActivity(new Intent(History.this, History.class));
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         }
                     });
 
@@ -237,6 +238,14 @@ public class History extends AppCompatActivity implements
                 cursor3.getString(cursor3.getColumnIndex("status")), cursor3.getString(cursor3.getColumnIndex("date")));
 
         startActivity(new Intent(History.this, History.class));
-
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+
 }

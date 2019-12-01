@@ -259,6 +259,7 @@ public class Confirmation extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
                 Intent in = new Intent(Confirmation.this,FrontPage.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
@@ -274,5 +275,11 @@ public class Confirmation extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

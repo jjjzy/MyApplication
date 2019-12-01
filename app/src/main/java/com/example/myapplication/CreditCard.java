@@ -190,7 +190,7 @@ public class CreditCard extends AppCompatActivity {
 
                                 Intent in = new Intent(CreditCard.this ,Confirmation.class);
                                 startActivity(in);
-
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             }
                         }
                     }
@@ -215,6 +215,10 @@ public class CreditCard extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 }

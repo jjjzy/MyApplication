@@ -73,6 +73,7 @@ public class UserRegister extends AppCompatActivity {
                                Toast.makeText(getApplicationContext(),"Registered Successfully", Toast.LENGTH_SHORT).show();
                                Intent in = new Intent(UserRegister.this ,CustomerLogin.class);
                                startActivity(in);
+                               overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                            }
                        }
                        else {
@@ -101,5 +102,10 @@ public class UserRegister extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }
 

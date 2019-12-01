@@ -132,6 +132,7 @@ public class Request_Service_activity extends AppCompatActivity {
 
                     Intent in = new Intent(Request_Service_activity.this, View_vendors.class);
                     startActivity(in);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
         });
@@ -152,5 +153,10 @@ public class Request_Service_activity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 }

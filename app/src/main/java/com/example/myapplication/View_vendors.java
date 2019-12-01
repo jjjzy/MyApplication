@@ -140,6 +140,7 @@ public class View_vendors extends AppCompatActivity {
 //                    vendor_username_selected = "werwer";
                     index = select_vd.getId();
                     startActivity(new Intent(View_vendors.this, Request_time_total.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             });
 
@@ -373,7 +374,11 @@ public class View_vendors extends AppCompatActivity {
         return true;
     }
 
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
 
 }

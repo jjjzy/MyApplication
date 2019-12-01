@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,12 +37,14 @@ public class FrontPage extends AppCompatActivity {
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,Request_Service_activity.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
         b2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,History.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -48,12 +52,14 @@ public class FrontPage extends AppCompatActivity {
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,Settings.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
         b4.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent in = new Intent(FrontPage.this,MainActivity.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -63,5 +69,27 @@ public class FrontPage extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+       /* switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);*/
+        Intent myIntent = new Intent(getApplicationContext(), VendorFrontPage.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
     }
 }

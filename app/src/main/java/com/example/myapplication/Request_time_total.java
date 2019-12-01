@@ -100,6 +100,7 @@ public class Request_time_total extends AppCompatActivity implements
                 if((dayFinal != 0) && (hourFinal != 0)){
                     Intent in = new Intent(Request_time_total.this, Payment.class);
                     startActivity(in);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else
                     Toast.makeText(getApplicationContext(),"Please choose date/time!", Toast.LENGTH_SHORT).show();
@@ -153,7 +154,11 @@ public class Request_time_total extends AppCompatActivity implements
         return true;
     }
 
-
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }
 
 

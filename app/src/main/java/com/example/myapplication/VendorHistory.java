@@ -141,4 +141,10 @@ public class VendorHistory extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_bottom);
+    }
 }
