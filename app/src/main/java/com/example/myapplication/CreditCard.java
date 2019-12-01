@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -30,10 +31,15 @@ public class CreditCard extends AppCompatActivity {
 
     CheckBox cb;
     public static boolean want_to_save_card;
+    public static boolean want_to_use_points;
 
     Button use_prefer;
 
     DatabaseHelper db;
+
+    TextView show_points;
+
+    CheckBox use_points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,15 @@ public class CreditCard extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
+        use_points = (CheckBox) findViewById(R.id.user_points);
+
+        show_points = (TextView)findViewById(R.id.show_points);
+
+        double cur_points = Double.valueOf(Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString())));
+        double saved_money = cur_points / 100;
+
+        show_points.setText("you currently have " + db.retrive_points_based_on_username(CustomerLogin.s.toString()) + " points" + "\n" +
+                "you will save " + saved_money + " dollars");
 
         cb = (CheckBox) findViewById(R.id.checkBox);
         use_prefer = (Button) findViewById(R.id.button2);
@@ -157,10 +172,17 @@ public class CreditCard extends AppCompatActivity {
 //                                Toast.makeText(getApplicationContext(),"Your payment is being proccessed!", Toast.LENGTH_SHORT).show();
                                 if(cb.isChecked()){
                                     want_to_save_card = true;
+
 //                                    Log.d("Creation", "inside credit card, cb is checked");
                                 }
                                 else{
-//                                    Log.d("Creation", "inside credit card, cb is not checked");
+                                    want_to_save_card = false;
+                                }
+                                if(use_points.isChecked()){
+                                    want_to_use_points = true;
+                                }
+                                else{
+                                    want_to_use_points = false;
                                 }
 
 

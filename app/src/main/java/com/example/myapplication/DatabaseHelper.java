@@ -10,15 +10,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //constructor
     public DatabaseHelper(Context context){
-        super(context,"Login.db",null,14);
+        super(context,"Login.db",null,16);
 
     }
 
     //create a table for customers
     public void onCreate(SQLiteDatabase db){
-        db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text)");
+        db.execSQL("Create table user(fullname text, email text, username text primary key, password text, answer text, address text,phone text, points text)");
         db.execSQL("Create table vendor(username text primary key, password text, answer text, address text,phone text,company text,service text,price text,email text)");
-        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text)");
+        db.execSQL("Create table orders(user_username text,vendor_username text, service text, date text,total double,status text, payment_method text, order_number text)");
         db.execSQL("Create table services(service_category text primary key)");
         db.execSQL("Create table prefered_card(username text primary key, first text, second text, third text, fourth text, fullname text, month text, year text, cvv text, zip text)");
 
@@ -47,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists vendor");
         db.execSQL("drop table if exists orders");
         db.execSQL("drop table if exists services");
+        db.execSQL("drop table if exists prefered_card");
         onCreate(db);
     }
 
@@ -108,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("answer", answer);
         contentValues.put("address", address);
         contentValues.put("phone", phone);
+        contentValues.put("points", "0");
         long ins = db.insert("user", null, contentValues);
 
         if (ins == -1) return false;   //if the query does not work return false
@@ -115,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status, String method){
+    public boolean insertOrder(String user_username, String vendor_username, String service,String date,double total, String status, String method, String order_number){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_username", user_username);
@@ -125,6 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("total", total);
         contentValues.put("status", status);
         contentValues.put("payment_method", method);
+        contentValues.put("order_number", order_number);
         long ins = db.insert("orders", null,contentValues);
 
         if (ins==-1) return false;   //if the query does not work return false
@@ -306,7 +309,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 //        db.rawQuery("delete from prefered_card where username=?", new String[] {Username});
         db.execSQL("DELETE FROM " + "prefered_card" + " WHERE "+"username"+"='"+Username+"'");
+    }
 
+    public String retrive_points_based_on_username(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from user where username=?",new String[] {username});
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndex("points"));
+    }
+
+    public void update_points(String username, String new_point){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("points", new_point);
+        String [] args = new String[]{username};
+        db.update("user", cv,"username=?",args);
     }
 
 }

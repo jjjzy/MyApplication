@@ -14,6 +14,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
+
 public class Confirmation extends AppCompatActivity {
 
     TextView confirmation;
@@ -55,29 +62,106 @@ public class Confirmation extends AppCompatActivity {
 //        Log.d("Creation", "vendor username selected: ");
 //        Log.d("Creation", vendor_username);
 
-        confirmation.setText(
-                "Username: " + user_username + "\n" +"\n" +
-                        "Service: " + service_selected + "\n" +"\n" +
-                        "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
-                        "Date: " + Request_time_total.monthFinal + "/" +
-                        Request_time_total.dayFinal + "/" +
-                        Request_time_total.yearFinal + "\n" +"\n" +
-                        "Time: " + Request_time_total.hourFinal + ":" +
-                        Request_time_total.minuteFinal + "\n"+"\n" +
-                        "Payment method: " + Payment.method + "\n"
+        double before_points = Double.valueOf(Integer.parseInt(cursor.getString(cursor.getColumnIndex("price"))));
+        double amount_after_points = before_points -
+                Double.valueOf(Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString()))) / 100;
 
-        );
+        if(Payment.method.equals("Cash") ){
+            confirmation.setText(
+                    "Username: " + user_username + "\n" +"\n" +
+                            "Service: " + service_selected + "\n" +"\n" +
+                            "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
+                            "Date: " + Request_time_total.monthFinal + "/" +
+                            Request_time_total.dayFinal + "/" +
+                            Request_time_total.yearFinal + "\n" +"\n" +
+                            "Time: " + Request_time_total.hourFinal + ":" +
+                            Request_time_total.minuteFinal + "\n"+"\n" +
+                            "Payment method: " + Payment.method + "\n" + "\n" +
+                            "You should pay: " + before_points + "\n"
+            );
+        }
+        else if(Payment.method.equals("CreditCard")){
+            if(CreditCard.want_to_use_points == true){
+                confirmation.setText(
+                        "Username: " + user_username + "\n" +"\n" +
+                                "Service: " + service_selected + "\n" +"\n" +
+                                "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
+                                "Date: " + Request_time_total.monthFinal + "/" +
+                                Request_time_total.dayFinal + "/" +
+                                Request_time_total.yearFinal + "\n" +"\n" +
+                                "Time: " + Request_time_total.hourFinal + ":" +
+                                Request_time_total.minuteFinal + "\n"+"\n" +
+                                "Payment method: " + Payment.method + "\n" + "\n" +
+                                "You should pay: " + before_points + "\n" + "\n" +
+                                "After using points you pay: " + amount_after_points + "\n" + "\n" +
+                                "Your points before using points: " + db.retrive_points_based_on_username(CustomerLogin.s.toString()) + "\n" + "\n" +
+                                "Your points after using points: " + Integer.parseInt(cursor.getString(cursor.getColumnIndex("price")))
+                );
+            }
+            else{
+                confirmation.setText(
+                        "Username: " + user_username + "\n" +"\n" +
+                                "Service: " + service_selected + "\n" +"\n" +
+                                "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
+                                "Date: " + Request_time_total.monthFinal + "/" +
+                                Request_time_total.dayFinal + "/" +
+                                Request_time_total.yearFinal + "\n" +"\n" +
+                                "Time: " + Request_time_total.hourFinal + ":" +
+                                Request_time_total.minuteFinal + "\n"+"\n" +
+                                "Payment method: " + Payment.method + "\n" + "\n" +
+                                "You should pay: " + before_points + "\n" + "\n" +
+                                "Your points after payment: " + (Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString())) + Integer.parseInt(cursor.getString(cursor.getColumnIndex("price"))))
+                );
+            }
+
+        }
+
+//        confirmation.setText(
+//
+//                "Username: " + user_username + "\n" +"\n" +
+//                        "Service: " + service_selected + "\n" +"\n" +
+//                        "Vendor: " + cursor.getString(cursor.getColumnIndex("company"))+ "\n"+"\n" +
+//                        "Date: " + Request_time_total.monthFinal + "/" +
+//                        Request_time_total.dayFinal + "/" +
+//                        Request_time_total.yearFinal + "\n" +"\n" +
+//                        "Time: " + Request_time_total.hourFinal + ":" +
+//                        Request_time_total.minuteFinal + "\n"+"\n" +
+//                        "Payment method: " + Payment.method + "\n" +
+//                        "You should pay: " + before_points + "\n"
+//
+//        );
+
+
 
         final String date = Request_time_total.yearFinal + "/" + Request_time_total.monthFinal + "/" + Request_time_total.dayFinal + "/" + Request_time_total.hourFinal + "/" + Request_time_total.minuteFinal;
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String[] ids = TimeZone.getAvailableIDs(-8 * 60 * 60 * 1000);
+                SimpleTimeZone pdt = new SimpleTimeZone(-8 * 60 * 60 * 1000, ids[0]);
+                pdt.setStartRule(Calendar.APRIL, 1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+                pdt.setEndRule(Calendar.OCTOBER, -1, Calendar.SUNDAY, 2 * 60 * 60 * 1000);
+                Calendar calendar = new GregorianCalendar(pdt);
+                Date trialTime = new Date();
+                calendar.setTime(trialTime);
+
+                String cur_time = Integer.toString(calendar.get(Calendar.YEAR)) +
+                        Integer.toString(calendar.get(Calendar.MONTH)) +
+                        Integer.toString(calendar.get(Calendar.DATE)) +
+                        Integer.toString(calendar.get(Calendar.HOUR)) +
+                        Integer.toString(calendar.get(Calendar.MINUTE)) +
+                        Integer.toString(calendar.get(Calendar.SECOND));
+
+
+
+//                today.setToNow();
                 Boolean insert = db.insertOrder(CustomerLogin.s.toString(),
                         cursor.getString(cursor.getColumnIndex("username")),
                         Request_Service_activity.selected_text.toString(),
                         date,
                         cursor.getDouble(cursor.getColumnIndex("price")),"Pending",
-                        Payment.method);
+                        Payment.method,
+                        cur_time);
                 Log.d("Creation", "submitted");
 
                 if (CreditCard.want_to_save_card == true){
@@ -128,6 +212,15 @@ public class Confirmation extends AppCompatActivity {
                                 CreditCard.zip.getText().toString());
                     }
 
+                }
+
+                if(CreditCard.want_to_use_points == true){
+                    db.update_points(CustomerLogin.s.toString(), cursor.getString(cursor.getColumnIndex("price")));
+                }
+                if(CreditCard.want_to_use_points == false){
+                    int cur_points = Integer.parseInt(db.retrive_points_based_on_username(CustomerLogin.s.toString())) + Integer.parseInt(cursor.getString(cursor.getColumnIndex("price")));
+                    String _cur_points = Integer.toString(cur_points);
+                    db.update_points(CustomerLogin.s.toString(), _cur_points);
                 }
 
                 Toast.makeText(getApplicationContext(),"Your order is being placed!", Toast.LENGTH_SHORT).show();
